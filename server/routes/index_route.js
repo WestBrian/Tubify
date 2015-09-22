@@ -5,7 +5,7 @@ var router = express.Router();
 
 // Home page
 router.get('/', function(req, res, next){
-	res.send('Hello World!');
+	res.render('../../public/layout.jade');
 });
 
 module.exports = router;
