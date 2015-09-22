@@ -8,7 +8,10 @@ var app = express();
 var indexRoute = require('./server/routes/index_route');
 
 // Middleware
-app.use(indexRoute); //app.use('/', indexRoute);
+app.set('view engine', 'jade');
+app.set('views', __dirname + '/public');
+app.use(express.static('public'));
+app.use(indexRoute);
 
 // Starting server
 var server = app.listen(3000, function(){
