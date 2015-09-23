@@ -3,6 +3,8 @@
 // Dependencies
 var express = require('express');
 var app = express();
+app.set('view engine', 'jade');
+app.set('views', __dirname + '/public/*');
 
 // Routes
 var indexRoute = require('./server/routes/index_route');
