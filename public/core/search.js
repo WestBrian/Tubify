@@ -1,3 +1,15 @@
+// ANGULAR FUNCTIONS
+var app = angular.module('tubify', []);
+
+app.controller('CoreController', function($scope){
+    var searchText = $scope.searchField;
+    $scope.list = [];
+
+    $scope.search = function(){
+        $scope.list.push($scope.searchField);
+    };
+});
+
 // Searches youtube api for video
 function searchVideo(textInput){
     var q = textInput;

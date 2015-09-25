@@ -1,13 +1,14 @@
-
-
-.container-fluid
+.container-fluid(data-ng-controller='CoreController')
 	.col-sm-4
 		.searchBox
-			form
+			form(data-ng-submit='search()')
 				.form-group
-					input.form-control#search(type='text', placeholder='Search...', data-ng-model='searchField' ng-submit='expression' ng-keypress='expression')
+					input.form-control#search(type='text', placeholder='Search...', data-ng-model='searchField')
+			ul(data-ng-repeat='item in list')
+				li {{ item }}
 	.col-sm-4
-		p Soon to be video...
+		.container
+			div(id='player')
 	.col-sm-4
 		p Soon to be featured playlist...
 
