@@ -1,20 +1,13 @@
 .container-fluid(data-ng-controller='CoreController')
-	.col-sm-4
+	.col-sm-3
 		.searchBox
 			form(data-ng-submit='search()')
 				.form-group
 					input.form-control#search(type='text', placeholder='Search...', data-ng-model='searchField')
 			ul(data-ng-repeat='item in list')
 				li {{ item }}
-	.col-sm-4
-		.container
+	.col-sm-6
+		.embed-responsive.embed-responsive-16by9
 			div(id='player')
-	.col-sm-4
+	.col-sm-3
 		p Soon to be featured playlist...
-
-
-		doctype html
-
-
-
-
