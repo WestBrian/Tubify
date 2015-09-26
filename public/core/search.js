@@ -3,10 +3,10 @@ var app = angular.module('tubify', []);
 
 app.controller('CoreController', function($scope){
     var searchText = $scope.searchField;
-    $scope.list = [];
-
+    $scope.list1 = ['hey','sup'];
+    $scope.searchList = ['search1','search2'];
     $scope.search = function(){
-        $scope.list.push($scope.searchField);
+        $scope.searchList.push($scope.searchField);
     };
 });
 

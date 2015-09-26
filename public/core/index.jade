@@ -1,13 +1,19 @@
 .container-fluid(data-ng-controller='CoreController')
 	.col-sm-3
 		.searchBox
-			form(data-ng-submit='search()')
+			form(data-ng-submit='searchSubmit()')
 				.form-group
-					input.form-control#search(type='text', placeholder='Search...', data-ng-model='searchField')
-			ul(data-ng-repeat='item in list')
+					input.form-control#search(type='text', placeholder='Search...', data-ng-model='searchField', data-ng-keypress='search()')
+			ul#searchList(data-ng-repeat='item in searchList')
 				li {{ item }}
+		
+		img(src= '/core/ariana.jpg')
+
+		ul#list1(data-ng-repeat='item in list1')
+			li {{ item }}
 	.col-sm-6
 		.embed-responsive.embed-responsive-16by9
 			div(id='player')
 	.col-sm-3
 		p Soon to be featured playlist...
+
