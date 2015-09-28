@@ -1,9 +1,9 @@
 .container-fluid(data-ng-controller='CoreController')
 	.col-sm-3
 		.searchBox
-			form(data-ng-submit='searchSubmit()')
+			form(data-ng-submit='search()')
 				.form-group
-					input.form-control#search(type='text', placeholder='Search...', data-ng-model='searchField', data-ng-keypress='search()')
+					input.form-control#search(type='text', placeholder='Search...', data-ng-model='searchField')
 			ul#searchList(data-ng-repeat='item in searchList')
 				li {{ item }}
 		
