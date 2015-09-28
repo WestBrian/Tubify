@@ -3,5 +3,7 @@ function onClientLoad() {
 }
 
 function onYouTubeApiLoad() {
-    gapi.client.setApiKey(textuKeys[0]);
+    gapi.client.setApiKey(tubifyKeys[0]);
+    console.log('Google auth complete.');
+
 }
