@@ -24,7 +24,6 @@ function onYouTubeIframeAPIReady() {
 function onPlayerReady(event) {
   event.target.playVideo();
   console.log("player ready");
-  searchVideo('sda');
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -41,15 +40,3 @@ function stopVideo() {
   player.stopVideo();
 }
 
-
-
-function searchVideo(textInput){
-    var q = textInput;
-    var request = gapi.client.youtube.search.list({
-        q: textInput,
-        part: 'snippet',
-        type: 'video'
-    })
-
-    request.execute(showResponse);
-}
