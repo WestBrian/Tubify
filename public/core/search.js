@@ -89,10 +89,31 @@ app.controller('CoreController', function($scope){
         $scope.searchField = '';
         $scope.searchList = [];
     };
+
+
+
+    $scope.ngEvent = function(){
+        console.log('something happened');
+    };
 });
 
 $(document).on("keydown keyup", ".searchBox", function(event) { 
     if(event.which==38 || event.which==40){
         event.preventDefault();
     }
+});
+
+app.directive('ngScroll', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress click scroll mousewheel", function (event) {
+            if(event) {
+                scope.$apply(function (){
+                    console.log('yo');
+                    scope.$eval(attrs.ngScroll);
+                });
+
+                //event.preventDefault();
+            }
+        });
+    };
 });

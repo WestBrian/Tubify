@@ -1,12 +1,12 @@
 .container-fluid(data-ng-controller='CoreController', ng-cloak)
 	.row
 		.col-sm-3.text-center.ariana
-			.searchBox
+			.searchBox( ng-Scroll='ngEvent()')
 				form(role='form', data-ng-submit='playVideo()')
 					.form-group
 						input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
-				ul.list-group
-					li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}')
+				ul.list-group()
+					li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}' )
 						.row
 							.col-xs-6
 								img.img-responsive(ng-src='{{item.thumb}}')
