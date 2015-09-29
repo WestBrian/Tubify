@@ -1,4 +1,3 @@
-
 'use strict';
 
 var timer;
@@ -10,16 +9,17 @@ app.controller('CoreController', function($scope){
     $scope.searchList = [];
 
     $scope.search = function(){
-$scope.searchList = [];
+        $scope.searchList = [];
         
-            var query = $scope.searchField;
+        var query = $scope.searchField;
 
         var request = gapi.client.youtube.search.list({
             q: query,
             part: 'snippet',
             type: 'video'
         });
-        if($scope.searchField!=''){
+
+        if($scope.searchField != ''){
             request.execute(function(response){
                 console.log(response.items[0]);
                 $scope.searchList=[];
@@ -33,6 +33,5 @@ $scope.searchList = [];
                 $scope.$apply();
             });
         }
-
     };
 });
