@@ -1,3 +1,6 @@
+
+'use strict';
+
 var timer;
 var app = angular.module('tubify', []);
 
@@ -7,6 +10,7 @@ app.controller('CoreController', function($scope){
     $scope.searchList = [];
 
     $scope.search = function(){
+
         
             var query = $scope.searchField;
 
@@ -29,5 +33,6 @@ app.controller('CoreController', function($scope){
                 $scope.$apply();
             });
         }
+
     };
 });

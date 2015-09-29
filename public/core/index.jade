@@ -1,24 +1,24 @@
 .container-fluid(data-ng-controller='CoreController', ng-cloak)
-	.col-sm-3
-		.searchBox
-			form
-				.form-group
-					input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()')
-			ul.list-group#searchList(data-ng-repeat='item in searchList')
-				li.list-group-item
-					.row
-						.col-xs-6
-							img.img-responsive(ng-src='{{item.thumb}}')
-						.col-xs-6
-							span.text-muted {{ item.title }}
-		
-		img(src= '/core/ariana.jpg')
 
-		ul#list1(data-ng-repeat='item in list1')
-			li {{ item }}
-	.col-sm-6
-		.embed-responsive.embed-responsive-16by9
-			div(id='player')
-	.col-sm-3
-		p Soon to be featured playlist...
+	.row
+		.col-sm-3.text-center.ariana
+			.searchBox
+				form(role='form')
+					.form-group
+						input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-keyup='search()')
+				ul.list-group
+					li.list-group-item(data-ng-repeat='item in searchList')
+						.row
+							.col-xs-6
+								img.img-responsive(ng-src='{{item.thumb}}')
+							.col-xs-6
+								span.text-muted {{ item.title }}
+			ul.form-group.clear-padding
+				li.list-group-item(data-ng-repeat='item in list1') {{ item }}
+		.col-sm-6
+			.embed-responsive.embed-responsive-16by9
+				div#player
+		.col-sm-3
+			p Soon to be featured playlist...
+
 
