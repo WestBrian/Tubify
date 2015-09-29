@@ -7,7 +7,7 @@
 					.form-group
 						input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-keyup='search()')
 				ul.list-group
-					li.list-group-item(data-ng-repeat='item in searchList')
+					li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}')
 						.row
 							.col-xs-6
 								img.img-responsive(ng-src='{{item.thumb}}')
