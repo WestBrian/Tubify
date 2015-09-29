@@ -1,17 +1,19 @@
 'use strict';
 
-var timer;
+var counter=0;
 var app = angular.module('tubify', []);
 
 app.controller('CoreController', function($scope){
     var searchText = $scope.searchField;
     $scope.list1 = ['hey','sup'];
     $scope.searchList = [];
-
+    $scope.counter=0;
     $scope.search = function(){
         $scope.searchList = [];
         
-        var query = $scope.searchField;
+
+            var query = $scope.searchField;
+        $scope.counter=$scope.counter+1;
 
         var request = gapi.client.youtube.search.list({
             q: query,
