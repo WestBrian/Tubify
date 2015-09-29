@@ -16,11 +16,11 @@ app.controller('CoreController', function($scope){
         });
         if($scope.searchField!=''){
         request.execute(function(response){
-           // console.log(response.items[0].id.videoId);
+            console.log(response.items[0]);
             for(var i = 0; i < response.items.length; i++){
                 var obj = {
                     title: response.items[i].snippet.title,
-                    thumb: response.items[i].snippet.thumbnails.default.url
+                    thumb: response.items[i].snippet.thumbnails.medium.url
                 };
                 $scope.searchList.push(obj);
             }
