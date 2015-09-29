@@ -1,4 +1,3 @@
-
 'use strict';
 
 var counter=0;
@@ -10,16 +9,19 @@ app.controller('CoreController', function($scope){
     $scope.searchList = [];
     $scope.counter=0;
     $scope.search = function(){
-
+        $scope.searchList = [];
         
+
             var query = $scope.searchField;
         $scope.counter=$scope.counter+1;
+
         var request = gapi.client.youtube.search.list({
             q: query,
             part: 'snippet',
             type: 'video'
         });
-        if($scope.searchField!=''){
+
+        if($scope.searchField != ''){
             request.execute(function(response){
                 console.log(response.items[0]);
                 $scope.searchList=[];
@@ -33,6 +35,5 @@ app.controller('CoreController', function($scope){
                 $scope.$apply();
             });
         }
-
     };
 });
