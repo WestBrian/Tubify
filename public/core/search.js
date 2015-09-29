@@ -10,7 +10,7 @@ app.controller('CoreController', function($scope){
     $scope.searchList = [];
 
     $scope.search = function(){
-
+$scope.searchList = [];
         
             var query = $scope.searchField;
 
