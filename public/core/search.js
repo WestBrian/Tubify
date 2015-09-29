@@ -58,5 +58,7 @@ app.controller('CoreController', function($scope){
     $scope.playVideo = function(){
         $scope.list1.push($scope.searchList[$scope.counter].title);
         player.loadVideoById($scope.searchList[$scope.counter].videoId);
+        $scope.searchField = '';
+        $scope.searchList = [];
     };
 });
