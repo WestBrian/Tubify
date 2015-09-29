@@ -18,11 +18,13 @@ app.controller('CoreController', function($scope){
         request.execute(function(response){
            // console.log(response.items[0].id.videoId);
             for(var i = 0; i < response.items.length; i++){
-                console.log(response.items[i].snippet.title);
-                $scope.searchList.push(response.items[i].snippet.title);
+                var obj = {
+                    title: response.items[i].snippet.title,
+                    thumb: response.items[i].snippet.thumbnails.default.url
+                };
+                $scope.searchList.push(obj);
             }
             $scope.$apply();
-
         });
     }
     };
