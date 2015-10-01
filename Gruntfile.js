@@ -23,6 +23,9 @@ module.exports = function(grunt){
 			}
 		},
 		watch: {
+			options: {
+				livereload: 9000
+			},
 			scripts: {
 				files: ['public/core/*.styl'],
 				tasks: ['stylus']
