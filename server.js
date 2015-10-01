@@ -6,9 +6,6 @@ var app = express();
 var cred = require('./server/config.js');
 var mongoose = require('mongoose');
 
-//for io
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
 
 // Routes
 var indexRoute = require('./server/routes/index_route');
@@ -24,10 +21,6 @@ db.once('open', function(){
 	console.log('Database connected.');
 });
 
-
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
 
 /*
 var video = require('./server/models/video.js');
@@ -54,8 +47,27 @@ app.use(indexRoute);
 
 // Starting server
 var server = app.listen(3000, function(){
-	var host = server.address().address;
-	var port = server.address().port;
+var host = server.address().address;
+var port = server.address().port;
 
-	console.log('Server listening at port: %s.', port);
+console.log('Server listening at port: %s.', port);
+
+
+//socket.io
+var io = require('socket.io')(server);
+io.on('connection', function(socket){
+ 	console.log('a user connected');
+ 	
+
+
+ 	socket.on('addedVid', function(msg) {
+    	io.emit('addedVid', msg);
+	});
+
+
+});
+
+
+
+
 });

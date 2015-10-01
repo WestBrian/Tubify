@@ -3,7 +3,14 @@
 var app = angular.module('tubify', []);
 var latestSearchResponse;
 
+
 app.controller('CoreController', function($scope){
+    var socket = io();
+    socket.on('addedVid', function(msg) {
+        $scope.searchField=msg;
+        $scope.$apply();
+    });
+
     var searchText = $scope.searchField;
     var realCounter=0;
     $scope.list1 = [];
@@ -12,6 +19,8 @@ app.controller('CoreController', function($scope){
 
     $scope.search = function(){
         // Resetting variables
+        socket.emit('addedVid',$scope.searchField);
+
         realCounter=0;
         $scope.counter = 0;
         $scope.searchList = [];
