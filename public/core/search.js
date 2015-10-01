@@ -92,8 +92,53 @@ app.controller('CoreController', function($scope){
 
 
 
-    $scope.ngEvent = function(){
-        console.log('something happened');
+    $scope.onScroll = function($event){
+        var realLength=latestSearchResponse.items.length;
+        //console.log('onscroll called');
+        //console.log(event);
+       // console.log(event.wheelDelta);
+        if (event.wheelDelta>0){
+            console.log('scrolled up');
+            if (realCounter-$scope.counter>0){
+                realCounter--;
+                var obj = {
+                    title: latestSearchResponse.items[realCounter+(0-$scope.counter)].snippet.title,
+                    thumb: latestSearchResponse.items[realCounter+(0-$scope.counter)].snippet.thumbnails.medium.url,
+                    videoId: latestSearchResponse.items[realCounter+(0-$scope.counter)].id.videoId
+                };
+                $scope.searchList.pop();
+                $scope.searchList.unshift(obj);
+
+            }
+
+        }
+        else{
+            console.log('scrolled down');
+            if (realCounter-$scope.counter+2<realLength-1){
+                realCounter++;
+                var obj = {
+                    title: latestSearchResponse.items[realCounter+(2-$scope.counter)].snippet.title,
+                    thumb: latestSearchResponse.items[realCounter+(2-$scope.counter)].snippet.thumbnails.medium.url,
+                    videoId: latestSearchResponse.items[realCounter+(2-$scope.counter)].id.videoId
+                };
+                $scope.searchList.shift();
+                $scope.searchList.push(obj);
+
+            }
+        }
+        // console.log($event.originalEvent.wheelDelta+' again');
+    };
+
+    $scope.enterSearchList = function(index){
+        console.log(index); 
+        realCounter=realCounter+index-$scope.counter;
+        $scope.counter=index;
+    };
+    $scope.clickedSearchList = function(){
+        $scope.list1.push($scope.searchList[$scope.counter].title);
+        player.loadVideoById($scope.searchList[$scope.counter].videoId);
+        $scope.searchField = '';
+        $scope.searchList = [];
     };
 });
 
@@ -105,10 +150,10 @@ $(document).on("keydown keyup", ".searchBox", function(event) {
 
 app.directive('ngScroll', function () {
     return function (scope, element, attrs) {
-        element.bind("keydown keypress click scroll mousewheel", function (event) {
+        element.bind("mousewheel", function (event) {
             if(event) {
                 scope.$apply(function (){
-                    console.log('yo');
+                    //console.log(event.originalEvent.wheelDelta);
                     scope.$eval(attrs.ngScroll);
                 });
 
