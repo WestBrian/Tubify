@@ -2,11 +2,14 @@
 
 var mongoose = require('mongoose');
 
-var videoSchema = mongoose.Schema({
+var videosSchema = mongoose.Schema({
 	title: String,
-	urlId: String
+	urlId: String,
+	searchString: { type: String, default: 'searchString' },
+	playCount: { type: Number, default: 0 },
+	dateAdded: { type: Date, default: Date.now }
 });
 
-var Video = mongoose.model('Video', videoSchema);
+var videos = mongoose.model('videos', videosSchema);
 
-module.exports = Video;
+module.exports = videos;
