@@ -1,12 +1,7 @@
 .container-fluid(data-ng-controller='CoreController', ng-cloak)
 	.row
-		.col-xs-12
-			form(role='form')
-				.form-group
-					input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField')
-	.row
-		.col-sm-3.text-center.ariana
-			.searchBox(ng-Scroll='onScroll($event)')
+		.col-sm-3.text-center
+			.blue-wrapper(ng-Scroll='onScroll($event)')
 				form(role='form', data-ng-submit='playVideo()')
 					.form-group
 						input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
@@ -20,8 +15,9 @@
 			ul.form-group.clear-padding
 				li.list-group-item(data-ng-repeat='item in list1') {{ item }}
 		.col-sm-6
-			.embed-responsive.embed-responsive-16by9
-				div#player
+			.blue-wrapper.recolor-white
+				.embed-responsive.embed-responsive-16by9
+					div#player
 		.col-sm-3
 			p Soon to be featured playlist.
 
