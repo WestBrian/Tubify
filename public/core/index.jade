@@ -1,7 +1,12 @@
 .container-fluid(data-ng-controller='CoreController', ng-cloak)
 	.row
+		.col-xs-12
+			form(role='form')
+				.form-group
+					input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField')
+	.row
 		.col-sm-3.text-center.ariana
-			.searchBox( ng-Scroll='onScroll($event)')
+			.searchBox(ng-Scroll='onScroll($event)')
 				form(role='form', data-ng-submit='playVideo()')
 					.form-group
 						input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
