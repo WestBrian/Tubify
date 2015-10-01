@@ -6,6 +6,10 @@ var app = express();
 var cred = require('./server/config.js');
 var mongoose = require('mongoose');
 
+//for io
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 // Routes
 var indexRoute = require('./server/routes/index_route');
 
@@ -18,6 +22,11 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Error: '));
 db.once('open', function(){
 	console.log('Database connected.');
+});
+
+
+io.on('connection', function(socket){
+  console.log('a user connected');
 });
 
 /*
