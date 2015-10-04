@@ -2,11 +2,12 @@
 
 var app = angular.module('tubify', []);
 var latestSearchResponse;
+var socketRoom='';
 
 
 app.controller('CoreController', function($scope){
     var socket = io();
-    socket.on('addedVid', function(msg) {
+    socket.on('addVid', function(msg) {
         $scope.searchField=msg;
         $scope.$apply();
     });
@@ -19,7 +20,19 @@ app.controller('CoreController', function($scope){
 
     $scope.search = function(){
         // Resetting variables
-        socket.emit('addedVid',$scope.searchField);
+        //socket.broadcast.to(socketRoom).emit('addedVid',$scope.searchField);
+        //socket.emit('addedVid',$scope.searchField);
+        var data = {
+            msg: $scope.searchField,
+            room: $scope.playlistField
+        };
+
+        console.log('dataaaa');
+        console.log($scope.playlistField);
+        console.log(data);
+        console.log(data.room);
+        socket.emit('addedVid', data);
+        
 
         realCounter=0;
         $scope.counter = 0;
@@ -148,6 +161,22 @@ app.controller('CoreController', function($scope){
         player.loadVideoById($scope.searchList[$scope.counter].videoId);
         $scope.searchField = '';
         $scope.searchList = [];
+    };
+
+    $scope.playlistChange = function(){
+        console.log('yo');
+        console.log($scope.searchField);
+        socket.emit('join',$scope.playlistField);
+        /*if(socketRoom==''){
+            socket.join($scope.playlistField);
+            socketRoom=$scope.playlistField;
+        }
+        else{
+            socket.leave(socketRoom);
+            socket.join($scope.playlistField);
+            socketRoom=$scope.playlistField;
+        }
+        */
     };
 });
 

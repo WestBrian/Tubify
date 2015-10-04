@@ -61,7 +61,16 @@ io.on('connection', function(socket){
 
 
  	socket.on('addedVid', function(msg) {
-    	io.emit('addedVid', msg);
+ 		console.log('addedvid message to '+msg.room);
+    	socket.broadcast.to(msg.room).emit('addVid',msg.msg);
+	});
+	socket.on('join', function(msg) {
+		for (var key in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
+			socket.leave(key);
+			console.log(socket.rooms[key]);
+		}
+		console.log('joined'+msg);
+    	socket.join(msg);
 	});
 
 

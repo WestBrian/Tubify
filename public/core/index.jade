@@ -4,6 +4,7 @@
 			.blue-wrapper(ng-Scroll='onScroll($event)')
 				form(role='form', data-ng-submit='playVideo()')
 					.form-group
+						input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField', data-ng-change='playlistChange()')
 						input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
 				ul.list-group()
 					li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}' ng-mouseenter='enterSearchList($index)' ng-click='clickedSearchList()')
