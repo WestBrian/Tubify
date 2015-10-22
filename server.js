@@ -6,6 +6,7 @@ var app = express();
 var cred = require('./server/config.js');
 var mongoose = require('mongoose');
 
+
 // Routes
 var indexRoute = require('./server/routes/index_route');
 
@@ -19,6 +20,7 @@ db.on('error', console.error.bind(console, 'Error: '));
 db.once('open', function(){
 	console.log('Database connected.');
 });
+
 
 /*
 var video = require('./server/models/video.js');
@@ -45,8 +47,36 @@ app.use(indexRoute);
 
 // Starting server
 var server = app.listen(3000, function(){
-	var host = server.address().address;
-	var port = server.address().port;
+var host = server.address().address;
+var port = server.address().port;
 
-	console.log('Server listening at port: %s.', port);
+console.log('Server listening at port: %s.', port);
+
+
+//socket.io
+var io = require('socket.io')(server);
+io.on('connection', function(socket){
+ 	console.log('a user connected');
+ 	
+
+
+ 	socket.on('addedVid', function(msg) {
+ 		console.log('addedvid message to '+msg.room);
+    	socket.broadcast.to(msg.room).emit('addVid',msg.msg);
+	});
+	socket.on('join', function(msg) {
+		for (var key in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
+			socket.leave(key);
+			console.log(socket.rooms[key]);
+		}
+		console.log('joined'+msg);
+    	socket.join(msg);
+	});
+
+
+});
+
+
+
+
 });

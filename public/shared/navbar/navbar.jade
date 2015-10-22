@@ -1,11 +1,11 @@
-.container-fluid
+.container-fluid(data-ng-controller='CoreController', ng-cloak)
 	.row.nav.text-center
 		.col-xs-2
 			h1.clear-margin.tubify-brand TUBIFY
 		.col-xs-8
 			form(role='form')
-				.form-group.clear-margin
-					input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField')
+				.form-group
+					input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField', data-ng-change='playlistChange()')
 		.col-xs-2
 			h3.clear-margin.pull-right
 				span.glyphicon.glyphicon-user.style-glyph(aria-hidden='true')
