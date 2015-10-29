@@ -1,0 +1,14 @@
+.container-fluid
+	.centered-card(ng-controller='RegisterController')
+		h2 Register
+		form
+			.form-group
+				label(for='emailInput') Email
+				input.form-control#emailInput(type='email', placeholder='Email', ng-model='emailField')
+			.form-group
+				label(for='usernameInput') Username
+				input.form-control#usernameInput(type='text', placeholder='Username', ng-model='usernameField')
+			.form-group
+				label(for='passwordInput') Password
+				input.form-control#passwordInput(type='password', placeholder='Password', ng-model='passwordField')
+			button.btn.btn-success(type='submit') Login
