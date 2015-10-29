@@ -1,0 +1,38 @@
+
+<div data-ng-controller="CoreController" ng-cloak="ng-cloak" class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 text-center">
+      <div ng-Scroll="onScroll($event)" class="blue-wrapper">
+        <form role="form" data-ng-submit="playVideo()">
+          <div class="form-group">
+            <input type="text" placeholder="Enter a playlist..." ng-model="playlistField" data-ng-change="playlistChange()" class="form-control"/>
+          </div>
+          <div class="form-group">
+            <input id="search" type="text" autocomplete="off" placeholder="Search..." data-ng-model="searchField" data-ng-change="search()" data-ng-keydown="displayKey($event)" class="form-control"/>
+          </div>
+        </form>
+        <ul class="list-group">
+          <li data-ng-repeat="item in searchList" ng-class="{selected :$index==counter}" ng-mouseenter="enterSearchList($index)" ng-click="clickedSearchList()" class="list-group-item">
+            <div class="row">
+              <div class="col-xs-6"><img ng-src="{{item.thumb}}" class="img-responsive"/></div>
+              <div class="col-xs-6"><span class="text-muted">{{ item.title }}</span></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <ul class="form-group clear-padding">
+        <li data-ng-repeat="item in list1" class="list-group-item">{{ item }}</li>
+      </ul>
+    </div>
+    <div class="col-sm-6">
+      <div class="blue-wrapper recolor-white">
+        <div class="embed-responsive embed-responsive-16by9">
+          <div id="player"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <p>Soon to be featured playlist.</p>
+    </div>
+  </div>
+</div>

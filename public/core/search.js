@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('tubify', []);
+//var app = angular.module('tubify', []);
 var latestSearchResponse;
 var socketRoom='';
 

@@ -22,13 +22,26 @@ module.exports = function(grunt){
 				}
 			}
 		},
+		jade: {
+			compile: {
+				options: {
+					pretty: true
+				},
+				files: [{
+					src: 'public/**/*.jade',
+					dest: 'build/views',
+					expand: true,
+					ext: '.html'
+				}]
+			}
+		},
 		watch: {
 			options: {
 				livereload: 9000
 			},
 			scripts: {
-				files: ['public/core/*.styl'],
-				tasks: ['stylus']
+				files: ['public/core/stylesheets/*.styl', 'public/*/*.jade'],
+				tasks: ['stylus', 'jade']
 			}
 		}
 	});
@@ -36,6 +49,7 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-nodemon');
 	grunt.loadNpmTasks('grunt-contrib-stylus');
+	grunt.loadNpmTasks('grunt-contrib-jade');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask('default', ['concurrent']);
