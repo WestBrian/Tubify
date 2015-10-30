@@ -60,6 +60,8 @@ io.on('connection', function(socket){
 
  	socket.on('addedVid', function(msg) {
  		console.log('addedvid message to '+msg.room);
+ 		
+ 		
  		io.to(msg.room).emit('addedVid', msg);
     }); 
 	socket.on('join', function(msg) {

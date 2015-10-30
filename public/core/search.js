@@ -10,7 +10,16 @@ app.controller('CoreController', function($scope){
     socket.on('addedVid', function(msg) {     
         console.log("recieved addedvid message");  
         console.log(msg.title+msg.urlId);  
-        $scope.list1.push(msg.title);
+
+        var obj = {
+                        title: msg.title,
+                        urlId: msg.urlId,
+                        thumb: msg.thumb,
+                        searchString: msg.searchString
+                    };
+
+
+        $scope.list1.push(obj);
         player.loadVideoById(msg.urlId);
         $scope.$apply();
     });
@@ -95,13 +104,30 @@ app.controller('CoreController', function($scope){
                 }
             }
         }
-    };
 
-    $scope.playVideo = function(){
-        $scope.list1.push($scope.searchList[$scope.counter].title);
-        player.loadVideoById($scope.searchList[$scope.counter].videoId);
+        if ($event.keyCode == 13) {
+            $scope.playVideo();
+        }
+
+    };
+  
+    $scope.playVideo = function(){   //gets called when clicking a searched video, or pressing enter
+        console.log('play video');
+        var data = {
+            title: $scope.searchList[$scope.counter].title,
+            urlId: $scope.searchList[$scope.counter].videoId,
+            thumb: $scope.searchList[$scope.counter].thumb,
+            searchField: $scope.searchField,
+
+
+            room: $scope.playlistField
+        };
+        socket.emit('addedVid', data);
+
+
         $scope.searchField = '';
         $scope.searchList = [];
+
     };
 
 
@@ -147,26 +173,6 @@ app.controller('CoreController', function($scope){
         console.log(index); 
         realCounter=realCounter+index-$scope.counter;
         $scope.counter=index;
-    };
-    $scope.clickedSearchList = function(){
-        
-
-        var data = {
-            title: $scope.searchList[$scope.counter].title,
-            urlId: $scope.searchList[$scope.counter].videoId,
-            searchField: $scope.searchField,
-
-
-            room: $scope.playlistField
-        };
-        socket.emit('addedVid', data);
-
-
-        $scope.searchField = '';
-        $scope.searchList = [];
-        
-
-
     };
 
     $scope.playlistChange = function(){
