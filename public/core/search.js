@@ -35,6 +35,14 @@ app.controller('CoreController', function($scope){
     $scope.searchList = [];
     $scope.counter=0;
     $scope.playlistIndex=0;
+    var playlistFromStorage=localStorage.getItem("playlist");
+    if(playlistFromStorage!=null){
+        $scope.playlistField=playlistFromStorage;
+        socket.emit('join',$scope.playlistField);
+
+
+    }
+    startPlayer();
 
     $scope.search = function(){
         // Resetting variables
@@ -190,6 +198,7 @@ app.controller('CoreController', function($scope){
         console.log('yo');
         console.log($scope.searchField);
         socket.emit('join',$scope.playlistField);
+        localStorage.setItem("playlist", $scope.playlistField);
 
         /*if(socketRoom==''){
             socket.join($scope.playlistField);
@@ -203,6 +212,8 @@ app.controller('CoreController', function($scope){
         */
     };
 });
+
+
 
 $(document).on("keydown keyup", ".searchBox", function(event) { 
     if(event.which==38 || event.which==40){
@@ -224,3 +235,18 @@ app.directive('ngScroll', function () {
         });
     };
 });
+
+$(function() {
+    $( "#sortable" ).sortable({
+        update: function(event, ui) { 
+            console.log('update: '+ui.item.index())
+        },
+        start: function(event, ui) { 
+            console.log('start: ' + ui.item.index())
+        }
+    });
+    $( "#sortable" ).disableSelection();
+    console.log('sortable');
+});
+    
+

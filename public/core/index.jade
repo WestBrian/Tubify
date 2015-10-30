@@ -1,4 +1,5 @@
-.container-fluid(data-ng-controller='CoreController', ng-cloak)
+
+.container-fluid(id='main', data-ng-controller='CoreController', ng-cloak)
 	.row
 		.col-sm-3.text-center
 			.blue-wrapper(ng-Scroll='onScroll($event)')
@@ -14,7 +15,7 @@
 								img.img-responsive(ng-src='{{item.thumb}}')
 							.col-xs-6
 								span.text-muted {{ item.title }}
-			ul.form-group.clear-padding
+			ul.form-group.clear-padding(id='sortable')
 				li.list-group-item(data-ng-repeat='item in list1', ng-class='{selected :$index==playlistIndex}', ng-click='playClickedVideo($index)') {{ item.title }}
 		.col-sm-6
 			.blue-wrapper.recolor-white
@@ -22,5 +23,7 @@
 					div#player
 		.col-sm-3
 			p Soon to be featured playlist.
+
+
 
 

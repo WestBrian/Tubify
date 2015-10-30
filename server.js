@@ -5,8 +5,13 @@ var express = require('express');
 var app = express();
 var cred = require('./server/config.js');
 var mongoose = require('mongoose');
-
-
+/* //uncomment for https
+var fs = require('fs');
+var https = require('https');
+var privateKey  = fs.readFileSync('./server/keys/tubify.key', 'utf8');
+var certificate = fs.readFileSync('./server/keys/tubify.cert', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+*/
 // Routes
 var indexRoute = require('./server/routes/index_route');
 
@@ -44,11 +49,15 @@ app.use(express.static('public'));
 app.use(indexRoute);
 
 // Starting server
+/*  //https
+var server = https.createServer(credentials, app);
+server.listen(3000, function(){
+*/ //https
 var server = app.listen(3000, function(){
 var host = server.address().address;
 var port = server.address().port;
 
-console.log('Server listening at port: %s.', port);
+//console.log('Server listening at port: %s.', port);
 
 
 //socket.io
