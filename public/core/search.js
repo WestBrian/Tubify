@@ -34,6 +34,7 @@ app.controller('CoreController', function($scope){
     $scope.list1 = [];
     $scope.searchList = [];
     $scope.counter=0;
+    $scope.playlistIndex=0;
 
     $scope.search = function(){
         // Resetting variables
@@ -179,6 +180,10 @@ app.controller('CoreController', function($scope){
         console.log(index); 
         realCounter=realCounter+index-$scope.counter;
         $scope.counter=index;
+    };
+    $scope.playClickedVideo= function(index){
+        $scope.playlistIndex=index;
+        player.loadVideoById($scope.list1[index].urlId);
     };
 
     $scope.playlistChange = function(){
