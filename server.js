@@ -12,7 +12,7 @@ var indexRoute = require('./server/routes/index_route');
 
 // Database
 //mongoose.connect('mongodb://'+ cred.user +':'+ cred.password +'@ds051833.mongolab.com:51833/tubify');
-mongoose.connect('mongodb://admin1:serverpass314@candidate.52.mongolayer.com:10606,candidate.53.mongolayer.com:10195/tubifydb?replicaSet=set-560d8cc12a0bd7185f001142');
+mongoose.connect('mongodb://admin1:serverpass314@ds051883.mongolab.com:51883/tubify');
 var db = mongoose.connection;
 
 
@@ -20,11 +20,9 @@ db.on('error', console.error.bind(console, 'Error: '));
 db.once('open', function(){
 	console.log('Database connected.');
 });
-
-
-/*
 var video = require('./server/models/video.js');
-
+var playlist = require('./server/models/playlist.js');
+/*
 
 var a = new video({
 	title:'sup',
@@ -62,8 +60,8 @@ io.on('connection', function(socket){
 
  	socket.on('addedVid', function(msg) {
  		console.log('addedvid message to '+msg.room);
-    	socket.broadcast.to(msg.room).emit('addVid',msg.msg);
-	});
+ 		io.to(msg.room).emit('addedVid', msg);
+    }); 
 	socket.on('join', function(msg) {
 		for (var key in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
 			socket.leave(key);

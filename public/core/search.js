@@ -7,8 +7,11 @@ var socketRoom='';
 
 app.controller('CoreController', function($scope){
     var socket = io();
-    socket.on('addVid', function(msg) {
-        $scope.searchField=msg;
+    socket.on('addedVid', function(msg) {     
+        console.log("recieved addedvid message");  
+        console.log(msg.title+msg.urlId);  
+        $scope.list1.push(msg.title);
+        player.loadVideoById(msg.urlId);
         $scope.$apply();
     });
 
@@ -22,18 +25,7 @@ app.controller('CoreController', function($scope){
         // Resetting variables
         //socket.broadcast.to(socketRoom).emit('addedVid',$scope.searchField);
         //socket.emit('addedVid',$scope.searchField);
-        var data = {
-            msg: $scope.searchField,
-            room: $scope.playlistField
-        };
-
-        console.log('dataaaa');
-        console.log($scope.playlistField);
-        console.log(data);
-        console.log(data.room);
-        socket.emit('addedVid', data);
         
-
         realCounter=0;
         $scope.counter = 0;
         $scope.searchList = [];
@@ -157,10 +149,24 @@ app.controller('CoreController', function($scope){
         $scope.counter=index;
     };
     $scope.clickedSearchList = function(){
-        $scope.list1.push($scope.searchList[$scope.counter].title);
-        player.loadVideoById($scope.searchList[$scope.counter].videoId);
+        
+
+        var data = {
+            title: $scope.searchList[$scope.counter].title,
+            urlId: $scope.searchList[$scope.counter].videoId,
+            searchField: $scope.searchField,
+
+
+            room: $scope.playlistField
+        };
+        socket.emit('addedVid', data);
+
+
         $scope.searchField = '';
         $scope.searchList = [];
+        
+
+
     };
 
     $scope.playlistChange = function(){
