@@ -7,8 +7,8 @@ var socketRoom='';
 
 app.controller('CoreController', function($scope){
     var socket = io();
-    socket.on('addedVid', function(msg) {     
-        console.log("recieved addedvid message");  
+    socket.on('addVid', function(msg) {     
+        console.log("received addedvid message");  
         console.log(msg.title+msg.urlId);  
 
         var obj = {
@@ -21,6 +21,11 @@ app.controller('CoreController', function($scope){
 
         $scope.list1.push(obj);
         player.loadVideoById(msg.urlId);
+        $scope.$apply();
+    });
+    socket.on('playlist', function(msg){
+        console.log('heyheyhey');
+        $scope.list1=msg;
         $scope.$apply();
     });
 
@@ -122,6 +127,7 @@ app.controller('CoreController', function($scope){
 
             room: $scope.playlistField
         };
+        console.log('emitted addedvid');
         socket.emit('addedVid', data);
 
 
@@ -179,6 +185,7 @@ app.controller('CoreController', function($scope){
         console.log('yo');
         console.log($scope.searchField);
         socket.emit('join',$scope.playlistField);
+
         /*if(socketRoom==''){
             socket.join($scope.playlistField);
             socketRoom=$scope.playlistField;
