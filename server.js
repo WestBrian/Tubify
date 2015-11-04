@@ -66,7 +66,43 @@ io.on('connection', function(socket){
  	console.log('a user connected');
  
  	
+ 	socket.on('changeOrder', function(msg){
+        playlist.findOne({ title:msg.playlist },function (err, doc){
+        	if(err){
+				console.log('error');
+			}
+			else{
+				if(doc!=null){
+					var a=[];
+					console.log(doc.order);
+					for (var i=0; i<doc.videos.length; i++){
+						a.push(doc.order[msg.indexList[i]]);
+//						console.log('doc.videos['+i+'] : '+doc.videos[i]);
+					}
+					doc.order=a;
+					doc.markModified('order');
+					console.log(doc.order);
+					console.log('hey');
+					//for (var i=0; i<doc.videos.length; i++){
+					//	console.log('doc.videos['+i+'] : '+doc.videos[i]);
+					//}	
+					doc.save(function (err2){
+						if (err2){
+							console.log('error');
+						}
+						else{
+							console.log('saveOrder successful');
+						}
+					});
 
+				}
+				else{
+					console.log('error');
+				}
+				
+			}
+        });
+ 	});
 
  	socket.on('addedVid', function(msg) {
  		var videoToSave = new video({
@@ -90,6 +126,7 @@ io.on('connection', function(socket){
 				if(doc != null){
 					console.log('playlist updated');
 					doc.videos.push(videoToSave._id);
+					doc.order.push(doc.order.length);
 					doc.save(function (err2){
 						if (err2){
 							console.log('error');
@@ -102,10 +139,15 @@ io.on('connection', function(socket){
 					
 				}
 				else{
+					var a=[];
+					a.push(0);
 					console.log('creating new playlsit');
 					var playlistToSave = new playlist({
 						title: msg.room,
-						videos: [videoToSave._id]
+						videos: [videoToSave._id],
+						order: a
+						
+
 					});
 					playlistToSave.save(function (err){
 						if (err){
@@ -145,12 +187,21 @@ io.on('connection', function(socket){
 							for (var i=0; i<doc2.length; i++){
 								playlistToSend.push(doc2[i])
 							}
-							socket.emit('playlist', playlistToSend);
+							var data={
+								list:playlistToSend,
+								order:doc.order
+							};
+
+							socket.emit('playlist', data);
 						}
 					});
 				}
 				else{
-					socket.emit('playlist', []);
+					var data={
+						list:[],
+						order:[]
+					};
+					socket.emit('playlist', data);
 				}
 				
 			}

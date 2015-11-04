@@ -6,8 +6,8 @@ var socketRoom='';
 
 
 app.controller('CoreController', function($scope){
-    var socket = io();
-    socket.on('addVid', function(msg) {     
+    $scope.socket = io();
+    $scope.socket.on('addVid', function(msg) {     
         console.log("received addedvid message");  
         console.log(msg.title+msg.urlId);  
 
@@ -21,11 +21,22 @@ app.controller('CoreController', function($scope){
 
         $scope.list1.push(obj);
         player.loadVideoById(msg.urlId);
+        $scope.indexList=[];
+        for (var i = 0; i <$scope.list1.length; i++) {
+            $scope.indexList.push(i);
+        }
+
         $scope.$apply();
     });
-    socket.on('playlist', function(msg){
+    $scope.socket.on('playlist', function(msg){
         console.log('heyheyhey');
-        $scope.list1=msg;
+        //$scope.list1=msg[0];
+        $scope.list1=[];
+        $scope.indexList=[];
+        for (var i = 0; i <msg.list.length; i++) {
+            $scope.indexList.push(i);
+            $scope.list1.push(msg.list[msg.order[i]]);
+        }
         $scope.$apply();
     });
 
@@ -35,10 +46,11 @@ app.controller('CoreController', function($scope){
     $scope.searchList = [];
     $scope.counter=0;
     $scope.playlistIndex=0;
+    $scope.indexList=[];
     var playlistFromStorage=localStorage.getItem("playlist");
     if(playlistFromStorage!=null){
         $scope.playlistField=playlistFromStorage;
-        socket.emit('join',$scope.playlistField);
+        $scope.socket.emit('join',$scope.playlistField);
 
 
     }
@@ -46,8 +58,8 @@ app.controller('CoreController', function($scope){
 
     $scope.search = function(){
         // Resetting variables
-        //socket.broadcast.to(socketRoom).emit('addedVid',$scope.searchField);
-        //socket.emit('addedVid',$scope.searchField);
+        //$scope.socket.broadcast.to($scope.socketRoom).emit('addedVid',$scope.searchField);
+        //$scope.socket.emit('addedVid',$scope.searchField);
         
         realCounter=0;
         $scope.counter = 0;
@@ -137,7 +149,7 @@ app.controller('CoreController', function($scope){
             room: $scope.playlistField
         };
         console.log('emitted addedvid');
-        socket.emit('addedVid', data);
+        $scope.socket.emit('addedVid', data);
 
 
         $scope.searchField = '';
@@ -190,24 +202,31 @@ app.controller('CoreController', function($scope){
         $scope.counter=index;
     };
     $scope.playClickedVideo= function(index){
-        $scope.playlistIndex=index;
+        //$scope.playlistIndex=index;
+       // player.loadVideoById($scope.list1[$scope.indexList[index]].urlId);
+       console.log(index);
+        $scope.playlistIndex=$scope.indexList.indexOf(index);
         player.loadVideoById($scope.list1[index].urlId);
+
+        
+
+
     };
 
     $scope.playlistChange = function(){
         console.log('yo');
         console.log($scope.searchField);
-        socket.emit('join',$scope.playlistField);
+        $scope.socket.emit('join',$scope.playlistField);
         localStorage.setItem("playlist", $scope.playlistField);
 
-        /*if(socketRoom==''){
-            socket.join($scope.playlistField);
-            socketRoom=$scope.playlistField;
+        /*if($scope.socketRoom==''){
+            $scope.socket.join($scope.playlistField);
+            $scope.socketRoom=$scope.playlistField;
         }
         else{
-            socket.leave(socketRoom);
-            socket.join($scope.playlistField);
-            socketRoom=$scope.playlistField;
+            $scope.socket.leave($scope.socketRoom);
+            $scope.socket.join($scope.playlistField);
+            $scope.socketRoom=$scope.playlistField;
         }
         */
     };
@@ -237,13 +256,42 @@ app.directive('ngScroll', function () {
 });
 
 $(function() {
+    var scope = angular.element($("#main")).scope();
+    var a;
     $( "#sortable" ).sortable({
+
         update: function(event, ui) { 
+            console.log(scope.indexList);
             console.log('update: '+ui.item.index())
+            console.log('update from: '+a);
+            if (a<ui.item.index()){
+                var temp=scope.indexList[a];
+                for (var i = a; i <= ui.item.index()-1; i++) { 
+                    scope.indexList[i]=scope.indexList[i+1];
+                }
+                scope.indexList[ui.item.index()]=temp;
+            }
+            
+            else if(a>ui.item.index()){
+                var temp=scope.indexList[a];
+                for (var i = a; i >= ui.item.index()+1; i--) { 
+                    scope.indexList[i]=scope.indexList[i-1];
+                }
+                scope.indexList[ui.item.index()]=temp;   
+            }
+            console.log(scope.indexList);
+            var data={
+                playlist:scope.playlistField,
+                indexList:scope.indexList
+
+            }
+            scope.socket.emit('changeOrder',data);
+
         },
         start: function(event, ui) { 
+            a=ui.item.index()
             console.log('start: ' + ui.item.index())
-        }
+        },
     });
     $( "#sortable" ).disableSelection();
     console.log('sortable');

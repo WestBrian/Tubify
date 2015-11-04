@@ -61,7 +61,9 @@ function onPlayerStateChange(event){
         }else{
             scope.playlistIndex += 1;
         }
-        player.loadVideoById(scope.list1[scope.playlistIndex].urlId);
+        console.log(scope.indexList[scope.playlistIndex]);
+        console.log(scope.playlistIndex);
+        player.loadVideoById(scope.list1[scope.indexList[scope.playlistIndex]].urlId);
         scope.$apply();
     }
 }

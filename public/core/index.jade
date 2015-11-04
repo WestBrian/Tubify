@@ -16,7 +16,7 @@
 							.col-xs-6
 								span.text-muted {{ item.title }}
 			ul.form-group.clear-padding(id='sortable')
-				li.list-group-item(data-ng-repeat='item in list1', ng-class='{selected :$index==playlistIndex}', ng-click='playClickedVideo($index)') {{ item.title }}
+				li.list-group-item(data-ng-repeat='item in list1', ng-class='{selected :$index==indexList[playlistIndex]}', ng-click='playClickedVideo($index)') {{ item.title }}
 		.col-sm-6
 			.blue-wrapper.recolor-white
 				.embed-responsive.embed-responsive-16by9
