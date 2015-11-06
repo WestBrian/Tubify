@@ -4,7 +4,8 @@
 var express = require('express');
 var app = express();
 var cred = require('./server/config.js');
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
+var mongo=require('./server/models/dbConnect');
 /* //uncomment for https
 var fs = require('fs');
 var https = require('https');
@@ -17,6 +18,8 @@ var indexRoute = require('./server/routes/index_route');
 
 // Database
 //mongoose.connect('mongodb://'+ cred.user +':'+ cred.password +'@ds051833.mongolab.com:51833/tubify');
+
+/*
 mongoose.connect('mongodb://admin1:serverpass314@ds051883.mongolab.com:51883/tubify');
 var db = mongoose.connection;
 
@@ -25,6 +28,8 @@ db.on('error', console.error.bind(console, 'Error: '));
 db.once('open', function(){
 	console.log('Database connected.');
 });
+*/
+
 var video = require('./server/models/video.js');
 var playlist = require('./server/models/playlist.js');
 /*
@@ -65,7 +70,44 @@ var io = require('socket.io')(server);
 io.on('connection', function(socket){
  	console.log('a user connected');
  
- 	
+ 	socket.on('delete video', function(msg){
+ 		playlist.findOne({ title:msg.playlist },function (err, doc){
+        	if(err){
+				console.log('error');
+			}
+			else{
+				if(doc!=null){
+					console.log(doc.order);
+					doc.videos.splice(doc.order[msg.index], 1);
+					doc.order.splice(doc.order.indexOf(msg.index),1);
+					for (var i=0; i<doc.order.length; i++){
+						if (doc.order[i]>msg.index){
+							doc.order[i]=doc.order[i]-1;
+						}
+					}
+					console.log(doc.order);
+					doc.markModified('order');
+					doc.save(function (err2){
+						if (err2){
+							console.log('error');
+						}
+						else{
+							console.log('delete successful');
+							io.to(msg.playlist).emit('delete successful', msg);
+						}
+					});
+
+				}
+				else{
+					console.log('error');
+				}
+				
+			}
+
+			
+		});
+
+ 	});
  	socket.on('changeOrder', function(msg){
         playlist.findOne({ title:msg.playlist },function (err, doc){
         	if(err){

@@ -7,6 +7,9 @@ var socketRoom='';
 
 app.controller('CoreController', function($scope){
     $scope.socket = io();
+    $scope.socket.on('delete successful', function(msg) { 
+        
+    });
     $scope.socket.on('addVid', function(msg) {     
         console.log("received addedvid message");  
         console.log(msg.title+msg.urlId);  
@@ -230,6 +233,14 @@ app.controller('CoreController', function($scope){
         }
         */
     };
+    $scope.deleteVideo = function(index){
+        var data={
+            playlist:$scope.playlistField,
+            list: $scope.indexList,
+            index: index 
+        };
+        $scope.socket.emit('delete video', data );
+    };
 });
 
 
@@ -297,4 +308,3 @@ $(function() {
     console.log('sortable');
 });
     
-
