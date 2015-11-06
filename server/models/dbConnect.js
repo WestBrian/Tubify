@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 //sample connect string
-mongoose.connect('mongodb://admin1:password1@ds062335.mongolab.com:26584/tubify');
+mongoose.connect('mongodb://admin1:serverpass314@ds051883.mongolab.com:51883/tubify');
+
 var db = mongoose.connection;
 
 
