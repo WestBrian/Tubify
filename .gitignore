@@ -1,1 +1,3 @@
 node_modules
+server/keys
+server/models/dbConnect.js

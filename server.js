@@ -11,16 +11,46 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./server/routes/index_route');
 
+//var mongoose = require('mongoose');
+var mongo=require('./server/models/dbConnect');
+/* //uncomment for https
+var fs = require('fs');
+var https = require('https');
+var privateKey  = fs.readFileSync('./server/keys/tubify.key', 'utf8');
+var certificate = fs.readFileSync('./server/keys/tubify.cert', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
+*/
+
 // Database
 //mongoose.connect('mongodb://'+ cred.user +':'+ cred.password +'@ds051833.mongolab.com:51833/tubify');
-mongoose.connect('mongodb://admin1:serverpass314@candidate.52.mongolayer.com:10606,candidate.53.mongolayer.com:10195/tubifydb?replicaSet=set-560d8cc12a0bd7185f001142');
+
+/*
+mongoose.connect('mongodb://admin1:serverpass314@ds051883.mongolab.com:51883/tubify');
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'Error: '));
 db.once('open', function(){
 	console.log('Database connected.');
 });
+*/
 
+var video = require('./server/models/video.js');
+var playlist = require('./server/models/playlist.js');
+/*
+
+var a = new video({
+	title:'sup',
+	urlId:'123456'
+});
+
+a.save(function(err){
+	if(err){
+		console.log(':(');
+	}else{
+		console.log(':)');
+	}
+});
+*/
 // Middleware
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/public');
@@ -47,37 +77,208 @@ passport.deserializeUser(Account.deserializeUser());
 app.use(routes);
 
 // Starting server
+/*  //https
+var server = https.createServer(credentials, app);
+server.listen(3000, function(){
+*/ //https
 var server = app.listen(3000, function(){
 var host = server.address().address;
 var port = server.address().port;
 
-console.log('Server listening at port: %s.', port);
+//console.log('Server listening at port: %s.', port);
 
 
 //socket.io
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
  	console.log('a user connected');
- 	
+ 
+ 	socket.on('delete video', function(msg){
+ 		playlist.findOne({ title:msg.playlist },function (err, doc){
+        	if(err){
+				console.log('error');
+			}
+			else{
+				if(doc!=null){
+					console.log(doc.order);
+					doc.videos.splice(doc.order[msg.index], 1);
+					doc.order.splice(doc.order.indexOf(msg.index),1);
+					for (var i=0; i<doc.order.length; i++){
+						if (doc.order[i]>msg.index){
+							doc.order[i]=doc.order[i]-1;
+						}
+					}
+					console.log(doc.order);
+					doc.markModified('order');
+					doc.save(function (err2){
+						if (err2){
+							console.log('error');
+						}
+						else{
+							console.log('delete successful');
+							io.to(msg.playlist).emit('delete successful', msg);
+						}
+					});
 
+				}
+				else{
+					console.log('error');
+				}
+				
+			}
+
+			
+		});
+
+ 	});
+ 	socket.on('changeOrder', function(msg){
+        playlist.findOne({ title:msg.playlist },function (err, doc){
+        	if(err){
+				console.log('error');
+			}
+			else{
+				if(doc!=null){
+					var a=[];
+					console.log(doc.order);
+					for (var i=0; i<doc.videos.length; i++){
+						a.push(doc.order[msg.indexList[i]]);
+//						console.log('doc.videos['+i+'] : '+doc.videos[i]);
+					}
+					doc.order=a;
+					doc.markModified('order');
+					console.log(doc.order);
+					console.log('hey');
+					//for (var i=0; i<doc.videos.length; i++){
+					//	console.log('doc.videos['+i+'] : '+doc.videos[i]);
+					//}	
+					doc.save(function (err2){
+						if (err2){
+							console.log('error');
+						}
+						else{
+							console.log('saveOrder successful');
+						}
+					});
+
+				}
+				else{
+					console.log('error');
+				}
+				
+			}
+        });
+ 	});
 
  	socket.on('addedVid', function(msg) {
- 		console.log('addedvid message to '+msg.room);
-    	socket.broadcast.to(msg.room).emit('addVid',msg.msg);
-	});
+ 		var videoToSave = new video({
+			title: msg.title,
+			urlId: msg.urlId,
+			thumb: msg.thumb,
+			searchString:  msg.searchString,
+
+		});
+
+		videoToSave.save(function(err){
+			if(err){
+				console.log('video not saved');
+			}else{
+				console.log('video saved');
+
+				playlist.findOne({ title:msg.room },function (err, doc){
+				if(err){
+					console.log('error');
+				}
+				if(doc != null){
+					console.log('playlist updated');
+					doc.videos.push(videoToSave._id);
+					doc.order.push(doc.order.length);
+					doc.save(function (err2){
+						if (err2){
+							console.log('error');
+						}
+						else{
+							console.log('emitting addedVid');
+							io.to(msg.room).emit('addVid', msg);		
+						}
+					});	
+					
+				}
+				else{
+					var a=[];
+					a.push(0);
+					console.log('creating new playlsit');
+					var playlistToSave = new playlist({
+						title: msg.room,
+						videos: [videoToSave._id],
+						order: a
+						
+
+					});
+					playlistToSave.save(function (err){
+						if (err){
+							console.log('error');
+						}
+						else{
+							console.log('emitting addedVid');
+							io.to(msg.room).emit('addVid', msg);		
+						}
+					});		
+				}
+			});
+
+
+			}
+		});
+
+		
+ 		
+    }); 
 	socket.on('join', function(msg) {
 		for (var key in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
 			socket.leave(key);
-			console.log(socket.rooms[key]);
 		}
-		console.log('joined'+msg);
-    	socket.join(msg);
+		console.log('joined '+msg);
+		socket.join(msg);
+
+		playlist.findOne({ title:msg },function (err, doc){
+			if(err){
+				console.log('error');
+			}
+			else{
+				if(doc!=null){
+					video.find({'_id':{$in:doc.videos}},function (err, doc2){
+						if (doc2!=null){
+							var playlistToSend=[];
+							for (var i=0; i<doc2.length; i++){
+								playlistToSend.push(doc2[i])
+							}
+							var data={
+								list:playlistToSend,
+								order:doc.order
+							};
+
+							socket.emit('playlist', data);
+						}
+					});
+				}
+				else{
+					var data={
+						list:[],
+						order:[]
+					};
+					socket.emit('playlist', data);
+				}
+				
+			}
+		});
+		
+		
 	});
 
 
+
+
 });
-
-
 
 
 });
