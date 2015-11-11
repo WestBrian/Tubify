@@ -4,7 +4,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var cred = require('./server/config.js');
+//var cred = require('./server/config.js');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -12,7 +12,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var routes = require('./server/routes/index_route');
 
 //var mongoose = require('mongoose');
-var mongo=require('./server/models/dbConnect');
+//var mongo=require('./server/models/dbConnect');
 /* //uncomment for https
 var fs = require('fs');
 var https = require('https');
@@ -24,7 +24,6 @@ var credentials = {key: privateKey, cert: certificate};
 // Database
 //mongoose.connect('mongodb://'+ cred.user +':'+ cred.password +'@ds051833.mongolab.com:51833/tubify');
 
-/*
 mongoose.connect('mongodb://admin1:serverpass314@ds051883.mongolab.com:51883/tubify');
 var db = mongoose.connection;
 
@@ -32,7 +31,6 @@ db.on('error', console.error.bind(console, 'Error: '));
 db.once('open', function(){
 	console.log('Database connected.');
 });
-*/
 
 var video = require('./server/models/video.js');
 var playlist = require('./server/models/playlist.js');
