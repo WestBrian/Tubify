@@ -3,18 +3,13 @@
 // Dependencies
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 var cred = require('./server/config.js');
 var mongoose = require('mongoose');
 var passport = require('passport');
-var flash = require('connect-flash');
-var session = require('express-session');
+var LocalStrategy = require('passport-local').Strategy;
 
-
-// Routes
-var indexRoute = require('./server/routes/index_route');
-
-// Config
-//require('./server/config/passport')(passport);
+var routes = require('./server/routes/index_route');
 
 // Database
 //mongoose.connect('mongodb://'+ cred.user +':'+ cred.password +'@ds051833.mongolab.com:51833/tubify');
@@ -29,14 +24,27 @@ db.once('open', function(){
 // Middleware
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/public');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
-app.use(indexRoute);
 
 // Passport
-app.use(session({secret: 'tubify'}));
+app.use(require('express-session')({
+	secret: 'tubify',
+	resave: false,
+	saveUninitialized: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
+
+// Passport config
+var Account = require('./server/models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// Routes
+app.use(routes);
 
 // Starting server
 var server = app.listen(3000, function(){

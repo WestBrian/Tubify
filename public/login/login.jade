@@ -1,9 +1,13 @@
-.container-fluid
-	form
-		.form-group
-			label(for='usernameInput') Username
-			input.form-control#usernameInput(type='text', placeholder='Username')
-		.form-group
-			label(for='passwordInput') Password
-			input.form-control#passwordInput(type='password', placeholder='Password')
-		button.btn.btn-success(type='submit') Login
+extends ../layout
+
+block content
+	.container-fluid
+		.centered-card
+			form(role='form', action='/login', method='POST')
+				.form-group
+					label(for='usernameInput') Username
+					input.form-control#usernameInput(type='text', name='username', placeholder='Username')
+				.form-group
+					label(for='passwordInput') Password
+					input.form-control#passwordInput(type='password', name='password', placeholder='Password')
+				button.btn.btn-success(type='submit') Login

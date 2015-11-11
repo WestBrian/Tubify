@@ -5,13 +5,15 @@ html(data-ng-app='Tubify')
 		link(rel='stylesheet', href='../core/stylesheets/main.css')
 	body(ng-controller='LayoutController')
 		
-		if page == 'index'
-			include ./navbar/navbar.jade
-			include ./core/index.jade
-		else if page == 'login'
-			include ./login/login.jade
-		else if page == 'register'
-			include ./register/register.jade
+		block content
+
+		//- if page == 'index'
+		//- 	include ./navbar/navbar.jade
+		//- 	include ./core/index.jade
+		//- else if page == 'login'
+		//- 	include ./login/login.jade
+		//- else if page == 'register'
+		//- 	include ./register/register.jade
 		
 		// # Downloaded Javascript Files # //
 		script(src='https://code.jquery.com/jquery-git2.min.js')
