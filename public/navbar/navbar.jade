@@ -1,7 +1,8 @@
 .container-fluid(ng-cloak)
 	.row.nav.text-center
 		.col-xs-2
-			h1.clear-margin.tubify-brand TUBIFY
+			h1.clear-margin.tubify-brand
+				img.img-responsive(src='../core/images/Drawing.png')
 		.col-xs-8
 			form(role='form')
 				.form-group
@@ -9,4 +10,5 @@
 		.col-xs-2
 			h3.clear-margin.pull-right
 				span.glyphicon.glyphicon-user.style-glyph(aria-hidden='true')
-				span.glyphicon.glyphicon-log-out.style-glyph(aria-hidden='true')
+				a(href='/logout')
+					span.glyphicon.glyphicon-log-out.style-glyph(aria-hidden='true')

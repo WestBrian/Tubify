@@ -18,7 +18,7 @@ module.exports = function(grunt){
 		stylus: {
 			all: {
 				files: {
-					'public/core/main.css': 'public/core/*.styl'
+					'public/core/stylesheets/main.css': 'public/core/stylesheets/*.styl'
 				}
 			}
 		},

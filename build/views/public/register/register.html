@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="../core/stylesheets/main.css">
   </head>
   <body ng-controller="LayoutController">
-    <div class="container-fluid">
+    <div class="container">
       <div class="input-style-box">
-        <h2>Login</h2>
-        <form role="form" action="/login" method="POST">
+        <h2>Register</h2>
+        <form role="form" action="/register" method="POST">
           <div class="form-group">
-            <input id="usernameInput" type="text" name="username" placeholder="Username" required class="form-control">
+            <input type="text" name="username" placeholder="Enter username" class="form-control">
           </div>
           <div class="form-group">
-            <input id="passwordInput" type="password" name="password" placeholder="Password" required class="form-control">
+            <input type="password" name="password" placeholder="Enter password" class="form-control">
           </div>
-          <button type="submit" class="btn btn-success full-width">Login</button>
-          <p class="text-center"><a href="/register">Register</a></p>
+          <button type="submit" class="btn btn-info full-width">Register</button>
+          <p class="text-center"><a href="/login">Login</a></p>
         </form>
       </div>
     </div>

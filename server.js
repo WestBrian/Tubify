@@ -3,9 +3,18 @@
 // Dependencies
 var express = require('express');
 var app = express();
+
+var bodyParser = require('body-parser');
 //var cred = require('./server/config.js');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+var routes = require('./server/routes/index_route');
+
+
 //var mongoose = require('mongoose');
-var mongo=require('./server/models/dbConnect');
+//var mongo=require('./server/models/dbConnect');
 /* //uncomment for https
 var fs = require('fs');
 var https = require('https');
@@ -13,22 +22,17 @@ var privateKey  = fs.readFileSync('./server/keys/tubify.key', 'utf8');
 var certificate = fs.readFileSync('./server/keys/tubify.cert', 'utf8');
 var credentials = {key: privateKey, cert: certificate};
 */
-// Routes
-var indexRoute = require('./server/routes/index_route');
 
 // Database
 //mongoose.connect('mongodb://'+ cred.user +':'+ cred.password +'@ds051833.mongolab.com:51833/tubify');
 
-/*
 mongoose.connect('mongodb://admin1:serverpass314@ds051883.mongolab.com:51883/tubify');
 var db = mongoose.connection;
-
 
 db.on('error', console.error.bind(console, 'Error: '));
 db.once('open', function(){
 	console.log('Database connected.');
 });
-*/
 
 var video = require('./server/models/video.js');
 var playlist = require('./server/models/playlist.js');
@@ -50,8 +54,27 @@ a.save(function(err){
 // Middleware
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/public');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
-app.use(indexRoute);
+
+// Passport
+app.use(require('express-session')({
+	secret: 'tubify',
+	resave: false,
+	saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Passport config
+var Account = require('./server/models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// Routes
+app.use(routes);
 
 // Starting server
 /*  //https

@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html data-ng-app="Tubify">
   <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatiblue" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-    <link rel="stylesheet" href="core/stylesheets/main.css">
+    <link rel="stylesheet" href="../core/stylesheets/main.css">
   </head>
   <body ng-controller="LayoutController">
-    <!--include ./shared/navbar/navbar.jade-->
-    <div ng-view></div>
-    <!--include ./core/index.jade-->
+    <!-- # Downloaded Javascript Files # //-->
     <script src="https://code.jquery.com/jquery-git2.min.js"></script>
+    <!--for sortable-->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-    <script src="https://code.angularjs.org/1.4.6/angular-route.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script src="youtube_api/keys.js"></script>
-    <script src="youtube_api/auth.js"></script>
+    <!-- # Our Javascript Files # //-->
+    <script src="../youtube/keys.js"></script>
+    <script src="../youtube/auth.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=onClientLoad"></script>
-    <script src="youtube_api/ytplayer.js"></script>
-    <script src="layout.js"></script>
-    <script src="core/search.js"></script>
+    <script src="../youtube/ytplayer.js"></script>
+    <script src="../layout.js"></script>
+    <script src="../core/search.js"></script>
+    <script src="../register/register-controller.js"></script>
   </body>
 </html>
