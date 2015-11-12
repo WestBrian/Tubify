@@ -6,6 +6,18 @@ var socketRoom='';
 
 
 app.controller('CoreController', function($scope){
+
+    // Playlist highlighting
+    $scope.playlistCounter = 0;
+
+    $scope.enterPlaylistList = function(index) {
+        if(index != $scope.indexList[$scope.playlistIndex]) {
+            $scope.playlistCounter = index;
+        }
+    };
+    $scope.leavePlaylistList = function(index) {
+        $scope.playlistCounter = null;
+    };
     $scope.socket = io();
     $scope.socket.on('delete successful', function(msg) { 
         
@@ -51,6 +63,7 @@ app.controller('CoreController', function($scope){
     $scope.playlistIndex=0;
     $scope.indexList=[];
     var playlistFromStorage=localStorage.getItem("playlist");
+
     if(pl!=""){
         $scope.playlistField=pl;
         $scope.socket.emit('join',$scope.playlistField);    

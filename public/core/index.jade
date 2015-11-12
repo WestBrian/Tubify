@@ -1,11 +1,12 @@
 extends ../layout
 
-
 block content
 	if(!user)
 		include ../login/login
 	if(user)
 		include ../navbar/navbar
+		script.
+			var pl = '#{pl}';
 		.container-fluid(id='main', data-ng-controller='CoreController', ng-cloak)
 			.row
 				.col-sm-12
@@ -18,7 +19,7 @@ block content
 								input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField', data-ng-change='playlistChange()')
 							.form-group
 								input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
-						ul.list-group()
+						ul.list-group
 							li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}' ng-mouseenter='enterSearchList($index)' ng-click='playVideo()')
 								.row
 									.col-xs-6
@@ -26,7 +27,7 @@ block content
 									.col-xs-6
 										span.text-muted {{ item.title }}
 					ul.form-group.clear-padding(id='sortable')
-						li.list-group-item(data-ng-repeat='item in list1', ng-class='{selected :$index==indexList[playlistIndex]}', ng-click='playClickedVideo($index)') 
+						li.list-group-item(data-ng-repeat='item in list1', ng-class='{playing :$index==indexList[playlistIndex], selected: $index==playlistCounter}', ng-click='playClickedVideo($index)', ng-mouseleave="leavePlaylistList($index)", ng-mouseenter='enterPlaylistList($index)') 
 							.row
 								.col-xs-11 
 									p {{ item.title }} 

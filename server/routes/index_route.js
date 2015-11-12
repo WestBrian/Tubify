@@ -5,16 +5,10 @@ var passport = require('passport');
 var Account = require('../models/account');
 var router = express.Router();
 
+/* - Main routes - */
 
 router.get('/', function(req, res) {
 	res.render('./core/index', { user: req.user });
-});
-router.get('/p/:playlist', function(req, res, next){
-	console.log(req.params.playlist);
-	
-	res.render('layout', {pl:req.params.playlist});
-	console.log();
-
 });
 
 router.get('/register', function(req, res) {
@@ -46,6 +40,14 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
 router.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
+});
+
+/* - Playlist routes - */
+
+router.get('/p/:playlist', function(req, res){
+	// var playlist = encodeURIComponent(req.params.playlist);
+	// res.redirect('/?playlist=' + playlist);
+	res.render('./core/index', { user: req.user, pl: req.params.playlist });
 });
 
 module.exports = router;
