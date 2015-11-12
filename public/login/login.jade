@@ -2,12 +2,13 @@ extends ../layout
 
 block content
 	.container-fluid
-		.centered-card
+		.input-style-box
+			h2 Login
 			form(role='form', action='/login', method='POST')
 				.form-group
-					label(for='usernameInput') Username
-					input.form-control#usernameInput(type='text', name='username', placeholder='Username')
+					input.form-control#usernameInput(type='text', name='username', placeholder='Username', required)
 				.form-group
-					label(for='passwordInput') Password
-					input.form-control#passwordInput(type='password', name='password', placeholder='Password')
-				button.btn.btn-success(type='submit') Login
+					input.form-control#passwordInput(type='password', name='password', placeholder='Password', required)
+				button.btn.btn-success.full-width(type='submit') Login
+				p.text-center
+					a(href='/register') Register

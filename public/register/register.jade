@@ -1,12 +1,14 @@
 extends ../layout
 
 block content
-	.container-fluid
-		.centered-card
+	.container
+		.input-style-box
 			h2 Register
 			form(role='form', action='/register', method='POST')
 				.form-group
 					input.form-control(type='text', name='username', placeholder='Enter username')
 				.form-group
 					input.form-control(type='password', name='password', placeholder='Enter password')
-				button.btn.btn-default(type='submit') Submit
+				button.btn.btn-info.full-width(type='submit') Register
+				p.text-center
+					a(href='/login') Login

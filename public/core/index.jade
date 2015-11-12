@@ -2,9 +2,10 @@ extends ../layout
 
 block content
 	if(!user)
-		a(href='/login') Login
-		br
-		a(href='/register') Register
+		//- a(href='/login') Login
+		//- br
+		//- a(href='/register') Register
+		include ../login/login
 	if(user)
 		//- .container
 		//- 	p User: #{user.username}
