@@ -5,9 +5,11 @@ html(data-ng-app='Tubify')
 		meta(http-equiv='X-UA-Compatiblue', content='IE=edge')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
 		link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous")
+
 		link(rel='stylesheet', href='../core/stylesheets/main.css')
 	body(ng-controller='LayoutController')
-		
+		script.
+			var pl='#{pl}';
 		block content
 
 		//- if page == 'index'
@@ -26,7 +28,8 @@ html(data-ng-app='Tubify')
 		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous")
 		script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js')
 		script(src='https://cdn.socket.io/socket.io-1.2.0.js')
-		
+
+
 		// # Our Javascript Files # //
 		script(src='../youtube/keys.js')
 		script(src='../youtube/auth.js')

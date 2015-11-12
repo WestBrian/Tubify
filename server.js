@@ -3,6 +3,7 @@
 // Dependencies
 var express = require('express');
 var app = express();
+
 var bodyParser = require('body-parser');
 //var cred = require('./server/config.js');
 var mongoose = require('mongoose');
@@ -10,6 +11,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./server/routes/index_route');
+
 
 //var mongoose = require('mongoose');
 //var mongo=require('./server/models/dbConnect');

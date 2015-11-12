@@ -51,12 +51,17 @@ app.controller('CoreController', function($scope){
     $scope.playlistIndex=0;
     $scope.indexList=[];
     var playlistFromStorage=localStorage.getItem("playlist");
-    if(playlistFromStorage!=null){
-        $scope.playlistField=playlistFromStorage;
-        $scope.socket.emit('join',$scope.playlistField);
-
-
+    if(pl!=""){
+        $scope.playlistField=pl;
+        $scope.socket.emit('join',$scope.playlistField);    
     }
+    else if(playlistFromStorage!=null){
+        $scope.playlistField=playlistFromStorage;
+        $scope.socket.emit('join',$scope.playlistField);    
+    }
+
+
+    
     startPlayer();
 
     $scope.search = function(){

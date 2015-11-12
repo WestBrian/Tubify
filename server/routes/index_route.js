@@ -5,8 +5,16 @@ var passport = require('passport');
 var Account = require('../models/account');
 var router = express.Router();
 
+
 router.get('/', function(req, res) {
 	res.render('./core/index', { user: req.user });
+});
+router.get('/p/:playlist', function(req, res, next){
+	console.log(req.params.playlist);
+	
+	res.render('layout', {pl:req.params.playlist});
+	console.log();
+
 });
 
 router.get('/register', function(req, res) {
