@@ -3,7 +3,7 @@
 // Dependencies
 var express = require('express');
 var app = express();
-var cred = require('./server/config.js');
+//var cred = require('./server/config.js');
 //var mongoose = require('mongoose');
 var mongo=require('./server/models/dbConnect');
 /* //uncomment for https
