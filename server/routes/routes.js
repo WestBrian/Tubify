@@ -8,6 +8,9 @@ var router = express.Router();
 /* - Main routes - */
 
 router.get('/', function(req, res) {
+	if(req.query.playlist !== undefined) {
+		res.render('./core/index', { user: req.user, pl: req.query.playlist });
+	}
 	res.render('./core/index', { user: req.user });
 });
 

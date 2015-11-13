@@ -2,11 +2,11 @@
 	.row.nav.text-center.vcenter
 		.col-xs-2
 			h1.clear-margin.tubify-brand
-				a(href='http://localhost:3000') Tubify
+				a(href='http://localhost:3000') T U B I F Y
 		.col-xs-8
-			form(role='form')
+			form(role='form', action='http://localhost:3000/', method='GET')
 				.form-group
-					input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField', data-ng-change='playlistChange()')
+					input.form-control(type='text', name='playlist', placeholder='Enter a playlist')
 		.col-xs-2
 			.row
 				.col-xs-6
