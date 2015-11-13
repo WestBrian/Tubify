@@ -1,0 +1,5 @@
+.blue-wrapper(ng-controller='FeaturedPlaylistController')
+	h5 Featured Playlists
+	hr
+	ul.list-group
+		li.list-group-item.text-center.featured-playlist(ng-repeat='playlist in featuredPlaylists', ng-click='loadPlaylist($index)') {{ playlist.title }}

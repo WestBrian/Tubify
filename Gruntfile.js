@@ -22,26 +22,13 @@ module.exports = function(grunt){
 				}
 			}
 		},
-		jade: {
-			compile: {
-				options: {
-					pretty: true
-				},
-				files: [{
-					src: 'public/**/*.jade',
-					dest: 'build/views',
-					expand: true,
-					ext: '.html'
-				}]
-			}
-		},
 		watch: {
 			options: {
 				livereload: 9000
 			},
 			scripts: {
-				files: ['public/core/stylesheets/*.styl', 'public/*/*.jade'],
-				tasks: ['stylus', 'jade']
+				files: ['public/core/stylesheets/*.styl'],
+				tasks: ['stylus']
 			}
 		}
 	});

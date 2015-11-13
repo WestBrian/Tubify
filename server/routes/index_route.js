@@ -44,6 +44,23 @@ router.get('/logout', function(req, res) {
 
 /* - Playlist routes - */
 
+// Properties
+var Playlist = require('../models/playlist.js');
+
+router.get('/p', function(req, res) {
+	var featuredPlaylists = [];
+
+	Playlist.find({}, {title: true}, function(err, doc) {
+		if(err){
+			console.log('Error:');
+			console.log(err);
+			res.send(featuredPlaylists);
+		}
+		featuredPlaylists = doc;
+		res.send(featuredPlaylists);
+	});
+});
+
 router.get('/p/:playlist', function(req, res){
 	// var playlist = encodeURIComponent(req.params.playlist);
 	// res.redirect('/?playlist=' + playlist);
