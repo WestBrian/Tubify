@@ -6,29 +6,37 @@ body
 	padding: 10px
 	margin-bottom: 20px
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
+	
+	& h1
+		margin: 0
+		padding: 0
+	& h3
+		margin: 0
+		padding: 0
+	& .form-group
+		margin: 0
 
 .tubify-brand
 	
 	& a
 		color: white
 		text-decoration: none
+	
+		&:hover
+			color: #eee
 
 .style-glyph
 	color: white
 	cursor: pointer
 	margin-right: 20px
 	&:hover
-		color: #CBE5FF
+		color: #eee
 .test
 	display: relative
 
 .vcenter
-	//display: inline-block
-	//vertical-align: middle
-	//float: none
-	position: absolute
-	top: 50%
-	transform: translateY(-50%)
+	display: flex
+	align-items: center
 
 .ariana
 	background-image: url('ariana.jpg')
@@ -71,8 +79,8 @@ body
 .clear-margin
 	margin: 0
 
-.glyphicon:hover
-	color: red
+// .glyphicon:hover
+// 	color: red
 
 .input-style-box
 	background-color: #6699FF
