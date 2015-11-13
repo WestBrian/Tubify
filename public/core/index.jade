@@ -24,7 +24,8 @@ block content
 									.col-xs-6
 										span.text-muted {{ item.title }}
 					ul.form-group.clear-padding(id='sortable')
-						li.list-group-item(data-ng-repeat='item in list1', ng-class='{playing :$index==indexList[playlistIndex], selected: $index==playlistCounter}', ng-click='playClickedVideo($index)', ng-mouseleave="leavePlaylistList($index)", ng-mouseenter='enterPlaylistList($index)') 
+						//- li.list-group-item(data-ng-repeat='item in list1', ng-class='{playing :$index==indexList[playlistIndex], selected: $index==playlistCounter}', ng-click='playClickedVideo($index)', ng-mouseleave="leavePlaylistList($index)", ng-mouseenter='enterPlaylistList($index)')
+						li.list-group-item.video(data-ng-repeat='item in list1', ng-click='playClickedVideo($index)', ng-class='{playing: $index == indexList[playlistIndex]}') 
 							.row
 								.col-xs-11 
 									p {{ item.title }} 
