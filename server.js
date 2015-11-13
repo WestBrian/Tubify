@@ -246,6 +246,15 @@ io.on('connection', function(socket){
 			}
 			else{
 				if(doc!=null){
+					doc.playCount+=1;
+					doc.save(function (err){
+						if (err){
+							console.log('error updating playcount');
+						}
+						else{
+							console.log('updated playcount successfully');
+						}
+					});
 					video.find({'_id':{$in:doc.videos}},function (err, doc2){
 						if (doc2!=null){
 							var playlistToSend=[];
