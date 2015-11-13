@@ -5,16 +5,30 @@
 // Remove any elements with empty titles
 function removeBlankTitles(array) {
 	var indexOfBlank = -1;
+	var done = false;
 
-	for(var i = 0; i < array.length; i++) {
-		if(array[i].title === undefined) {
-			indexOfBlank = i;
+	while(!done) {
+		for(var i = 0; i < array.length; i++) {
+			if(array[i].title === undefined || array[i].title === '') {
+				indexOfBlank = i;
+			}
+		}
+
+		if(indexOfBlank > -1) {
+			array.splice(indexOfBlank, 1);
+			indexOfBlank = -1;
+			done = false;
+		} else {
+			done = true;
 		}
 	}
 
-	if(indexOfBlank > -1) {
-		array.splice(indexOfBlank, 1);
-	}
+	return array;
+}
+
+function limitArrayTo(array, limit) {
+	array.splice(limit, array.length);
+
 	return array;
 }
 
@@ -22,6 +36,7 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 	
 	// Properties
 	$scope.featuredPlaylists = [];
+	const limit = 5;
 
 	// -- Playlist functions -- //
 
@@ -29,6 +44,7 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 	$http.get('/p', {}).then(function(response) {
 		$scope.featuredPlaylists = response.data;
 		$scope.featuredPlaylists = removeBlankTitles($scope.featuredPlaylists);
+		$scope.featuredPlaylists = limitArrayTo($scope.featuredPlaylists, limit);
 	}, function(err) {
 		$scope.featuredPlaylists.push('Error fetching the featured playlist.');
 	});
