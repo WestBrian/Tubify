@@ -4,6 +4,9 @@
 var latestSearchResponse;
 var socketRoom='';
 
+var socketMessages = {
+    playlistChange: 'change order successful'
+}
 
 app.controller('CoreController', function($scope){
 
@@ -37,7 +40,6 @@ app.controller('CoreController', function($scope){
                     $scope.list1=list1copy;
         $scope.$apply();
     });
-
 
     $scope.socket.on('delete successful', function(msg) { 
         

@@ -61,7 +61,7 @@ router.get('/p', function(req, res) {
 		}
 		featuredPlaylists = doc;
 		res.send(featuredPlaylists);
-	}).sort({playCount:-1});
+	}).sort({ playCount: -1 });
 });
 
 router.get('/p/:playlist', function(req, res){
