@@ -19,6 +19,26 @@ app.controller('CoreController', function($scope){
         $scope.playlistCounter = null;
     };
     $scope.socket = io();
+
+    $scope.socket.on('change order successful', function(msg) { 
+        var tempList=[]
+        //var list1copy=$scope.list1.splice(0);
+        var list1copy = jQuery.extend(true, {}, $scope.list1);
+        console.log(list1copy);
+        console.log(list1copy);
+        console.log('changing order');
+
+        for (var i=0; i<$scope.indexList.length; i++){
+                       // tempList[i]=msg.indexList[msg.indexList[i]];
+                        list1copy[i]=$scope.list1[$scope.indexList[msg.indexList[i]]];
+                        //tempList[i]=$scope.indexList[msg.indexList[i]];
+                    }
+                   // $scope.indexList=tempList;
+                    $scope.list1=list1copy;
+        $scope.$apply();
+    });
+
+
     $scope.socket.on('delete successful', function(msg) { 
         
     });
