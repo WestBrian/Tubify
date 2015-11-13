@@ -157,7 +157,7 @@ io.on('connection', function(socket){
 						}
 						else{
 							console.log('saveOrder successful');
-							socket.broadcast.to(msg.playlist).emit('change order successful', msg);
+							io.to(msg.playlist).emit('change order successful', msg);
 						}
 					});
 
