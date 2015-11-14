@@ -7,6 +7,7 @@ block content
 		include ../navbar/navbar
 		script.
 			var pl = '#{pl}';
+			var username = '#{user.username}';
 		.container-fluid(id='main', data-ng-controller='CoreController', ng-cloak)
 			.row
 				.col-sm-3.text-center
@@ -17,15 +18,25 @@ block content
 						form(role='form', ng-submit='playVideo()')
 							.form-group
 								input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField', data-ng-change='playlistChange()')
+							button.btn.btn-default(type='button', ng-click='sync()') Sync
 							.form-group
-								input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
-						ul.list-group
-							li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}' ng-mouseenter='enterSearchList($index)' ng-click='playVideo()')
-								.row
-									.col-xs-6
-										img.img-responsive(ng-src='{{item.thumb}}')
-									.col-xs-6
-										span.text-muted {{ item.title }}
+								//- input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
+								.dropdown
+									input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)', data-toggle='dropdown')
+									ul.dropdown-menu
+										li.search-result(ng-repeat='result in searchList', ng-mouseenter='enterSearchList($index)', ng-click='playVideo()')
+											.row
+												.col-xs-6
+													img.img-responsive(ng-src='{{ result.thumb }}')
+												.col-xs-6
+													span.text-muted {{ result.title }}
+						//- ul.list-group
+						//- 	li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}' ng-mouseenter='enterSearchList($index)' ng-click='playVideo()')
+						//- 		.row
+						//- 			.col-xs-6
+						//- 				img.img-responsive(ng-src='{{item.thumb}}')
+						//- 			.col-xs-6
+						//- 				span.text-muted {{ item.title }}
 					ul.form-group.clear-padding(id='sortable')
 						//- li.list-group-item(data-ng-repeat='item in list1', ng-class='{playing :$index==indexList[playlistIndex], selected: $index==playlistCounter}', ng-click='playClickedVideo($index)', ng-mouseleave="leavePlaylistList($index)", ng-mouseenter='enterPlaylistList($index)')
 						li.list-group-item.video(data-ng-repeat='item in list1', ng-click='playClickedVideo($index)', ng-class='{playing: $index == indexList[playlistIndex]}') 

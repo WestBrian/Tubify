@@ -5,10 +5,14 @@ var latestSearchResponse;
 var socketRoom='';
 
 var socketMessages = {
-    playlistChange: 'change order successful'
+    playlistChange: 'change order successful',
+    syncedUser: 'Sync'
 }
 
 app.controller('CoreController', function($scope){
+
+    // Properties
+    $scope.searchList = ['...'];
 
     // Playlist highlighting
     $scope.playlistCounter = 0;
@@ -22,6 +26,10 @@ app.controller('CoreController', function($scope){
         $scope.playlistCounter = null;
     };
     $scope.socket = io();
+
+    $scope.socket.on('receiveSync', function(username) {
+        console.log('User: ' + username + ' has joined.');
+    });
 
     $scope.socket.on('change order successful', function(msg) { 
 
@@ -94,7 +102,7 @@ app.controller('CoreController', function($scope){
         // Resetting variables
         //$scope.socket.broadcast.to($scope.socketRoom).emit('addedVid',$scope.searchField);
         //$scope.socket.emit('addedVid',$scope.searchField);
-        
+
         realCounter=0;
         $scope.counter = 0;
         $scope.searchList = [];
@@ -109,20 +117,25 @@ app.controller('CoreController', function($scope){
         });
 
         if($scope.searchField != ''){
+            $('.dropdown-menu').show();
             request.execute(function(response){
                 latestSearchResponse=response;
-                console.log(response.items[0]);
+                //console.log(response.items[0]);
                 $scope.searchList = [];
+                //$scope.searchResults = [];
                 for(var i = 0; i < Math.min(response.items.length, 3); i++){
                     var obj = {
                         title: response.items[i].snippet.title,
                         thumb: response.items[i].snippet.thumbnails.medium.url,
                         videoId: response.items[i].id.videoId
                     };
+                    //$scope.searchResults.push(obj);
                     $scope.searchList.push(obj);
                 }
                 $scope.$apply();
             });
+        } else {
+            $('.dropdown-menu').hide();
         }
     };
 
@@ -191,7 +204,16 @@ app.controller('CoreController', function($scope){
 
     };
 
+    $scope.sync = function() {
+        // Properties
+        var data = {
+            'username': username,
+            'playlist': $scope.playlistField
+        };
 
+        // Emit message
+        $scope.socket.emit('sync', data);
+    }
 
     $scope.onScroll = function($event){
         var realLength=latestSearchResponse.items.length;
@@ -298,6 +320,13 @@ app.directive('ngScroll', function () {
 });
 
 $(function() {
+    $("#search").click(function(){
+        console.log('Clicked 1');
+        if(($('#search').val() == null) || ($('#search').val() === '')){
+            console.log('NULL 2');
+            $('.dropdown-menu').hide();
+        }
+    });
     var scope = angular.element($("#main")).scope();
     var a;
     $( "#sortable" ).sortable({
@@ -338,4 +367,3 @@ $(function() {
     $( "#sortable" ).disableSelection();
     console.log('sortable');
 });
-    
