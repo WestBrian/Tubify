@@ -21,7 +21,8 @@ app.controller('CoreController', function($scope){
     $scope.socket = io();
 
     $scope.socket.on('change order successful', function(msg) { 
-
+        //$scope.playlistIndex=$scope.indexList[$scope.playlistIndex];
+        $scope.playlistIndex=msg.indexList[$scope.playlistIndex];
         console.log('changing order');
         $scope.playlistChange();
         $scope.$apply();
@@ -55,7 +56,7 @@ app.controller('CoreController', function($scope){
         $scope.$apply();
     });
     $scope.socket.on('playlist', function(msg){
-        console.log('heyheyhey');
+
         //$scope.list1=msg[0];
         $scope.list1=[];
         $scope.indexList=[];
@@ -304,6 +305,7 @@ $(function() {
             console.log(scope.indexList);
             console.log('update: '+ui.item.index())
             console.log('update from: '+a);
+            
             if (a<ui.item.index()){
                 var temp=scope.indexList[a];
                 for (var i = a; i <= ui.item.index()-1; i++) { 
@@ -325,6 +327,7 @@ $(function() {
                 indexList:scope.indexList
 
             }
+
             scope.socket.emit('changeOrder',data);
 
         },
