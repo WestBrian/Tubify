@@ -12,10 +12,15 @@ block content
 			.row
 				.col-sm-3.text-center
 					.blue-wrapper(ng-Scroll='onScroll($event)')
-						form(role='form', ng-submit='playVideo()')
+						.title-card
+							h5 Your Playlist
+						hr
+						form(role='form')
 							.form-group
-								input.form-control(type='text', placeholder='Enter a playlist...', ng-model='playlistField', data-ng-change='playlistChange()')
-							button.btn.btn-default(type='button', ng-click='sync()') Sync
+								.input-group
+									.input-group-addon Playlist
+									input.form-control(type='text', ng-model='playlistField', data-ng-change='playlistChange()')
+							//button.btn.btn-default(type='button', ng-click='sync()') Sync
 							.form-group
 								//- input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
 								.dropdown
@@ -27,6 +32,7 @@ block content
 													img.img-responsive(ng-src='{{ result.thumb }}')
 												.col-xs-6
 													span.text-muted {{ result.title }}
+							span.glyphicon.glyphicon-repeat.hover-orange(ng-click='sync()')
 						//- ul.list-group
 						//- 	li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}' ng-mouseenter='enterSearchList($index)' ng-click='playVideo()')
 						//- 		.row
