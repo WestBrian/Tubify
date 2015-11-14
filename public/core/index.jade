@@ -19,7 +19,7 @@ block content
 							.form-group
 								//- input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
 								.dropdown
-									input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)', data-toggle='dropdown')
+									input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)')
 									ul.dropdown-menu
 										li.search-result(ng-repeat='result in searchList', ng-mouseenter='enterSearchList($index)', ng-click='playVideo()')
 											.row

@@ -118,7 +118,8 @@ app.controller('CoreController', function($scope){
         });
 
         if($scope.searchField != ''){
-            $('.dropdown-menu').show();
+            console.log('show');
+            $(".dropdown-menu").show();
             request.execute(function(response){
                 latestSearchResponse=response;
                 //console.log(response.items[0]);
@@ -135,7 +136,8 @@ app.controller('CoreController', function($scope){
                 }
                 $scope.$apply();
             });
-        } else {
+        } 
+        else if($scope.searchField == '') {
             $('.dropdown-menu').hide();
         }
     };
@@ -321,10 +323,14 @@ app.directive('ngScroll', function () {
 });
 
 $(function() {
-    $("#search").click(function(){
+    $(".dropdown-menu").dropdown('toggle');
+    $(".dropdown-menu").hide();
+    $("#search").click(function(e){
         console.log('Clicked 1');
+        e.preventDefault();
         if(($('#search').val() == null) || ($('#search').val() === '')){
             console.log('NULL 2');
+
             $('.dropdown-menu').hide();
         }
     });
