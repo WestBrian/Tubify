@@ -26,7 +26,17 @@ app.controller('CoreController', function($scope){
         $scope.playlistCounter = null;
     };
     $scope.socket = io();
+    $scope.sync=false;
 
+
+    $scope.socket.on('sync play video', function(data) {
+        console.log('playing video index '+data.index);
+
+        $scope.playlistIndex=$scope.indexList.indexOf(data.index);
+        player.loadVideoById($scope.list1[data.index].urlId);
+        $scope.$apply();
+
+    });
     $scope.socket.on('receiveSync', function(username) {
         console.log('User: ' + username + ' has joined.');
     });
@@ -207,13 +217,15 @@ app.controller('CoreController', function($scope){
 
     };
 
-    $scope.sync = function() {
+    $scope.sync2 = function() {
         // Properties
+        $scope.sync= !$scope.sync;
         var data = {
             'username': username,
-            'playlist': $scope.playlistField
+            'playlist': $scope.playlistField,
+            'syncing':$scope.sync
         };
-
+        
         // Emit message
         $scope.socket.emit('sync', data);
     }
@@ -267,7 +279,17 @@ app.controller('CoreController', function($scope){
         $scope.playlistIndex=$scope.indexList.indexOf(index);
         player.loadVideoById($scope.list1[index].urlId);
 
-        
+
+        var data = {
+            playlist:$scope.playlistField,
+            index:$scope.playlistIndex
+
+
+        };
+        if($scope.sync){
+           $scope.socket.emit('sync play video', data);
+        }
+        //$scope.$apply();
 
 
     };
@@ -276,6 +298,7 @@ app.controller('CoreController', function($scope){
         console.log('yo');
         console.log($scope.searchField);
         $scope.socket.emit('join',$scope.playlistField);
+        
         localStorage.setItem("playlist", $scope.playlistField);
 
         /*if($scope.socketRoom==''){

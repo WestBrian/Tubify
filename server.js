@@ -93,8 +93,17 @@ var io = require('socket.io')(server);
 io.on('connection', function(socket){
  	console.log('a user connected');
  
+ 	socket.on('sync play video', function(data){
+ 		io.in(data.playlist+'#sync').emit('sync play video', data);
+ 	});
  	socket.on('sync', function(data) {
- 		io.in(data.playlist).emit('receiveSync', data.username);
+ 		if(data.syncing){
+ 			socket.join(data.playlist+'#sync');	
+ 		}
+ 		else{
+ 			socket.leave(data.playlist+'#sync')
+ 		}
+ 		//io.in(data.playlist).emit('receiveSync', data.username);
  	});
 
  	socket.on('delete video', function(msg){
