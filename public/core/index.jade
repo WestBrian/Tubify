@@ -26,7 +26,7 @@ block content
 								.dropdown
 									input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)')
 									ul.dropdown-menu
-										li.search-result(ng-repeat='result in searchList', ng-mouseenter='enterSearchList($index)', ng-click='playVideo()')
+										li.search-result(ng-repeat='result in searchList', ng-mouseenter='enterSearchList($index)', ng-click='playVideo()', ng-class='{selected :$index==counter}')
 											.row
 												.col-xs-6
 													img.img-responsive(ng-src='{{ result.thumb }}')
