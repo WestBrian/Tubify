@@ -4,6 +4,9 @@
 var express = require('express');
 var app = express();
 
+// Deployment
+app.set('port', process.env.PORT || 3000);
+
 var bodyParser = require('body-parser');
 //var cred = require('./server/config.js');
 var mongoose = require('mongoose');
@@ -81,7 +84,7 @@ app.use(routes);
 var server = https.createServer(credentials, app);
 server.listen(3000, function(){
 */ //https
-var server = app.listen(3000, function(){
+var server = app.listen(app.get('port'), function(){
 var host = server.address().address;
 var port = server.address().port;
 

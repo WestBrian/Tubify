@@ -15,7 +15,7 @@ block content
 					.title-card
 						h5 Your Playlist
 					hr
-					form(role='form')
+					form(role='form', autocomplete='off')
 						.form-group
 							.input-group
 								.input-group-addon Playlist
@@ -24,7 +24,7 @@ block content
 						.form-group
 							//- input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
 							.dropdown
-								input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)', autocomplete='off')
+								input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)')
 								ul.dropdown-menu.ddm
 									li.search-result(ng-repeat='result in searchList', ng-mouseenter='enterSearchList($index)', ng-click='playVideo()', ng-class='{selected :$index==counter}')
 										.row
