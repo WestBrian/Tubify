@@ -5,6 +5,9 @@ block content
 	if(user)  
 		script.
 			var username = '#{user.username}';
+	else
+		script.
+			var username = 'guest';
 	script.
 		var pl = '#{pl}';
 
