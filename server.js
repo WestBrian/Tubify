@@ -251,9 +251,13 @@ io.on('connection', function(socket){
  		
     }); 
 	socket.on('join', function(msg) {
-		for (var key in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
-			socket.leave(key);
-		}
+
+		var rooms = io.sockets.adapter.sids[socket.id];
+       for(var room in rooms) {
+           socket.leave(room);	
+           console.log('left '+room);
+       }
+		console.log(socket.adapter.rooms);
 		console.log('joined '+msg);
 		socket.join(msg);
 
@@ -301,9 +305,12 @@ io.on('connection', function(socket){
 		
 	}); 
 	socket.on('join first', function(msg) {   //identical to join but for when client first opens page, to prevent default video from playing
-		for (var key in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
-			socket.leave(key);
-		}
+		var rooms = io.sockets.adapter.sids[socket.id];
+       for(var room in rooms) {
+           socket.leave(room);	
+           console.log('left '+room);
+       }
+
 		console.log('joined '+msg);
 		socket.join(msg);
 
