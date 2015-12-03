@@ -6,16 +6,18 @@
 		.col-sm-8.hidden-xs
 		.col-sm-2
 			.row
-				.col-xs-4
-					.circle
-						span.glyphicon.glyphicon-user.style-glyph
-				.col-xs-4
-					.circle
-						a(href='/logout')
-							span.glyphicon.glyphicon-log-out.style-glyph
-				.col-xs-4
-					.circle
-						a(href='/login')
-							span.glyphicon.glyphicon-log-in.style-glyph(aria-hidden='true')
-						if(user)
-							span #{user.username}
+				if(user)
+					.col-xs-4
+						.circle
+							span.glyphicon.glyphicon-user.style-glyph
+					.col-xs-4
+						span #{user.username}
+					.col-xs-4
+						.circle
+							a(href='/logout')
+								span.glyphicon.glyphicon-log-out.style-glyph
+				else
+					.col-xs-12
+						.circle.pull-right
+							a(href='/login')
+								span.glyphicon.glyphicon-log-in.style-glyph(aria-hidden='true')
