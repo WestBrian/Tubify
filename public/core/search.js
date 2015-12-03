@@ -108,7 +108,6 @@ app.controller('CoreController', function($scope){
     $scope.playlistIndex=0;
     $scope.indexList=[];
     var playlistFromStorage=localStorage.getItem("playlist");
-
     if(pl!=""){
         $scope.playlistField=pl;
         $scope.socket.emit('join first',$scope.playlistField);    
@@ -144,7 +143,7 @@ app.controller('CoreController', function($scope){
 
         if($scope.searchField != ''){
             console.log('show');
-            $(".dropdown-menu").show();
+            $(".ddm").show();
             request.execute(function(response){
                 latestSearchResponse=response;
                 //console.log(response.items[0]);
@@ -163,7 +162,7 @@ app.controller('CoreController', function($scope){
             });
         } 
         else if($scope.searchField == '') {
-            $('.dropdown-menu').hide();
+            $('.ddm').hide();
         }
     };
 
@@ -361,15 +360,15 @@ app.directive('ngScroll', function () {
 });
 
 $(function() {
-    $(".dropdown-menu").dropdown('toggle');
-    $(".dropdown-menu").hide();
+    $(".ddm").dropdown('toggle');
+    $(".ddm").hide();
     $("#search").click(function(e){
         console.log('Clicked 1');
         e.preventDefault();
         if(($('#search').val() == null) || ($('#search').val() === '')){
             console.log('NULL 2');
 
-            $('.dropdown-menu').hide();
+            $('.ddm').hide();
         }
     });
     var scope = angular.element($("#main")).scope();

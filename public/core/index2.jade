@@ -1,0 +1,60 @@
+extends ../layout
+
+block content
+	if(!user)
+		include ../login/login
+	
+	
+	if(user)  
+		include ../navbar/navbar
+		script.
+			var pl = '#{pl}';
+			var username = '#{user.username}';
+		.container-fluid(id='main', data-ng-controller='CoreController', ng-cloak)
+			.row
+				.col-sm-3.text-center
+					.blue-wrapper(ng-Scroll='onScroll($event)')
+						.title-card
+							h5 Your Playlist
+						hr
+						form(role='form')
+							.form-group
+								.input-group
+									.input-group-addon Playlist
+									input.form-control(type='text', ng-model='playlistField', data-ng-change='playlistChange()')
+							//-button.btn.btn-default(type='button', ng-click='sync()') Sync
+							.form-group
+								//- input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
+								.dropdown
+									input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)')
+									ul.dropdown-menu
+										li.search-result(ng-repeat='result in searchList', ng-mouseenter='enterSearchList($index)', ng-click='playVideo()', ng-class='{selected :$index==counter}')
+											.row
+												.col-xs-6
+													img.img-responsive(ng-src='{{ result.thumb }}')
+												.col-xs-6
+													span.text-muted {{ result.title }}
+							span.glyphicon.glyphicon-repeat.hover-orange(ng-click='sync2()')
+						//- ul.list-group
+						//- 	li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}' ng-mouseenter='enterSearchList($index)' ng-click='playVideo()')
+						//- 		.row
+						//- 			.col-xs-6
+						//- 				img.img-responsive(ng-src='{{item.thumb}}')
+						//- 			.col-xs-6
+						//- 				span.text-muted {{ item.title }}
+					ul.form-group.clear-padding(id='sortable')
+						//- li.list-group-item(data-ng-repeat='item in list1', ng-class='{playing :$index==indexList[playlistIndex], selected: $index==playlistCounter}', ng-click='playClickedVideo($index)', ng-mouseleave="leavePlaylistList($index)", ng-mouseenter='enterPlaylistList($index)')
+						li.list-group-item.video(data-ng-repeat='item in list1', ng-click='playClickedVideo($index)', ng-class='{playing: $index == playlistIndex}') 
+							.row
+								.col-xs-11 
+									p {{ item.title }} 
+								.col-xs-1
+									span.glyphicon(class='glyphicon-remove abc', ng-click="deleteVideo($index); $event.stopPropagation();")
+
+				.col-sm-6
+					.blue-wrapper.recolor-white
+						.embed-responsive.embed-responsive-16by9
+							div#player
+				.col-sm-3
+					include ../playlist/featured-playlist
+

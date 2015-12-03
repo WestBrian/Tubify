@@ -2,9 +2,9 @@
 	.row.nav.text-center.vcenter
 		.col-sm-2
 			h1.clear-margin.tubify-brand
-				a(href='http://localhost:3000') T U B I F Y
+				a(href='/') T U B I F Y
 		.col-sm-8
-			form(role='form', action='http://localhost:3000/', method='GET')
+			//-form(role='form', action='http://localhost:3000/', method='GET')
 				.form-group
 					input.form-control(type='text', name='playlist', placeholder='Enter a playlist')
 		.col-sm-2
@@ -13,9 +13,20 @@
 					.dropdown
 						h3
 							span.glyphicon.glyphicon-user.style-glyph.dropdown-toggle(aria-hidden='true', id='userDropdown', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-							ul.dropdown-menu(aria-labelledby='userDropdown')
-								li.text-center Username: #{user.username}
+							if(user)
+								ul.dropdown-menu(aria-labelledby='userDropdown')
+									li.text-center Username: #{user.username}
+
+								
+							
+								
+				.col-xs-6
+					
 				.col-xs-6
 					h3
 						a(href='/logout')
 							span.glyphicon.glyphicon-log-out.style-glyph(aria-hidden='true')
+						a(href='/login')
+							span.glyphicon.glyphicon-log-in.style-glyph(aria-hidden='true')
+						if(user)
+							span #{user.username}
