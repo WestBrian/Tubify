@@ -42,7 +42,17 @@ app.controller('CoreController', function($scope){
         $scope.playlistCounter = null;
     };
     $scope.socket = io();
+    $scope.sync=false;
 
+
+    $scope.socket.on('sync play video', function(data) {
+        console.log('playing video index '+data.index);
+
+        $scope.playlistIndex=$scope.indexList.indexOf(data.index);
+        player.loadVideoById($scope.list1[data.index].urlId);
+        $scope.$apply();
+
+    });
     $scope.socket.on('receiveSync', function(username) {
         console.log('User: ' + username + ' has joined.');
     });
@@ -92,6 +102,19 @@ app.controller('CoreController', function($scope){
         }
         $scope.$apply();
     });
+    $scope.socket.on('playlist first', function(msg){
+
+        //$scope.list1=msg[0];
+        $scope.list1=[];
+        $scope.indexList=[];
+        for (var i = 0; i <msg.list.length; i++) {
+            $scope.indexList.push(i);
+            $scope.list1.push(msg.list[msg.order[i]]);
+        }
+        startPlayer();
+        $scope.$apply();
+    });
+
 
     var searchText = $scope.searchField;
     var realCounter=0;
@@ -101,19 +124,20 @@ app.controller('CoreController', function($scope){
     $scope.playlistIndex=0;
     $scope.indexList=[];
     var playlistFromStorage=localStorage.getItem("playlist");
-
     if(pl!=""){
         $scope.playlistField=pl;
-        $scope.socket.emit('join',$scope.playlistField);    
+        $scope.socket.emit('join first',$scope.playlistField);    
     }
     else if(playlistFromStorage!=null){
         $scope.playlistField=playlistFromStorage;
-        $scope.socket.emit('join',$scope.playlistField);    
+        $scope.socket.emit('join first',$scope.playlistField);    
+    }
+    else{
+        startPlayer();    
     }
 
-
     
-    startPlayer();
+    
 
     $scope.search = function(){
         // Resetting variables
@@ -135,7 +159,7 @@ app.controller('CoreController', function($scope){
 
         if($scope.searchField != ''){
             console.log('show');
-            $(".dropdown-menu").show();
+            $(".ddm").show();
             request.execute(function(response){
                 latestSearchResponse=response;
                 //console.log(response.items[0]);
@@ -154,7 +178,7 @@ app.controller('CoreController', function($scope){
             });
         } 
         else if($scope.searchField == '') {
-            $('.dropdown-menu').hide();
+            $('.ddm').hide();
         }
     };
 
@@ -233,13 +257,15 @@ app.controller('CoreController', function($scope){
 
     };
 
-    $scope.sync = function() {
+    $scope.sync2 = function() {
         // Properties
+        $scope.sync= !$scope.sync;
         var data = {
             'username': username,
-            'playlist': $scope.playlistField
+            'playlist': $scope.playlistField,
+            'syncing':$scope.sync
         };
-
+        
         // Emit message
         $scope.socket.emit('sync', data);
     }
@@ -293,7 +319,17 @@ app.controller('CoreController', function($scope){
         $scope.playlistIndex=$scope.indexList.indexOf(index);
         player.loadVideoById($scope.list1[index].urlId);
 
-        
+
+        var data = {
+            playlist:$scope.playlistField,
+            index:$scope.playlistIndex
+
+
+        };
+        if($scope.sync){
+           $scope.socket.emit('sync play video', data);
+        }
+        //$scope.$apply();
 
 
     };
@@ -302,6 +338,7 @@ app.controller('CoreController', function($scope){
         console.log('yo');
         console.log($scope.searchField);
         $scope.socket.emit('join',$scope.playlistField);
+        
         localStorage.setItem("playlist", $scope.playlistField);
 
         /*if($scope.socketRoom==''){
@@ -349,16 +386,15 @@ app.directive('ngScroll', function () {
 });
 
 $(function() {
-    // Hiding dropdown menu * doesn't hide on clicking page *
-    $(".dropdown-menu").dropdown('toggle');
-    $(".dropdown-menu").hide();
+    $(".ddm").dropdown('toggle');
+    $(".ddm").hide();
     $("#search").click(function(e){
         console.log('Clicked 1');
         e.preventDefault();
         if(($('#search').val() == null) || ($('#search').val() === '')){
             console.log('NULL 2');
 
-            $('.dropdown-menu').hide();
+            $('.ddm').hide();
         }
     });
 

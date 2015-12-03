@@ -2,14 +2,20 @@
 	.row.nav.text-center.vcenter
 		.col-sm-2
 			span.clear-margin.tubify-brand
-				a(href='http://localhost:3000') Tubify
+				a(href='/') Tubify
 		.col-sm-8.hidden-xs
 		.col-sm-2
 			.row
-				.col-xs-6
+				.col-xs-4
 					.circle
 						span.glyphicon.glyphicon-user.style-glyph
-				.col-xs-6
+				.col-xs-4
 					.circle
 						a(href='/logout')
 							span.glyphicon.glyphicon-log-out.style-glyph
+				.col-xs-4
+					.circle
+						a(href='/login')
+							span.glyphicon.glyphicon-log-in.style-glyph(aria-hidden='true')
+						if(user)
+							span #{user.username}

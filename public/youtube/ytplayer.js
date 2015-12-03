@@ -54,6 +54,7 @@ function onPlayerReady(event) {
 }
 var done = false;
 function onPlayerStateChange(event){
+    console.log(event);
      var scope = angular.element($("#main")).scope();
     if(event.data == done){
         if(scope.playlistIndex == scope.list1.length - 1){
