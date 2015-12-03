@@ -86,6 +86,19 @@ app.controller('CoreController', function($scope){
         }
         $scope.$apply();
     });
+    $scope.socket.on('playlist first', function(msg){
+
+        //$scope.list1=msg[0];
+        $scope.list1=[];
+        $scope.indexList=[];
+        for (var i = 0; i <msg.list.length; i++) {
+            $scope.indexList.push(i);
+            $scope.list1.push(msg.list[msg.order[i]]);
+        }
+        startPlayer();
+        $scope.$apply();
+    });
+
 
     var searchText = $scope.searchField;
     var realCounter=0;
@@ -98,16 +111,18 @@ app.controller('CoreController', function($scope){
 
     if(pl!=""){
         $scope.playlistField=pl;
-        $scope.socket.emit('join',$scope.playlistField);    
+        $scope.socket.emit('join first',$scope.playlistField);    
     }
     else if(playlistFromStorage!=null){
         $scope.playlistField=playlistFromStorage;
-        $scope.socket.emit('join',$scope.playlistField);    
+        $scope.socket.emit('join first',$scope.playlistField);    
+    }
+    else{
+        startPlayer();    
     }
 
-
     
-    startPlayer();
+    
 
     $scope.search = function(){
         // Resetting variables

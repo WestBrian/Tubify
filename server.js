@@ -296,6 +296,56 @@ io.on('connection', function(socket){
 		});
 		
 		
+	}); 
+	socket.on('join first', function(msg) {   //identical to join but for when client first opens page, to prevent default video from playing
+		for (var key in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
+			socket.leave(key);
+		}
+		console.log('joined '+msg);
+		socket.join(msg);
+
+		playlist.findOne({ title:msg },function (err, doc){
+			if(err){
+				console.log('error');
+			}
+			else{
+				if(doc!=null){
+					doc.playCount+=1;
+					doc.save(function (err){
+						if (err){
+							console.log('error updating playcount');
+						}
+						else{
+							console.log('updated playcount successfully');
+						}
+					});
+					video.find({'_id':{$in:doc.videos}},function (err, doc2){
+						if (doc2!=null){
+							var playlistToSend=[];
+							for (var i=0; i<doc2.length; i++){
+								playlistToSend.push(doc2[i])
+							}
+							var data={
+								list:playlistToSend,
+								order:doc.order
+							};
+
+							socket.emit('playlist first', data);
+						}
+					});
+				}
+				else{
+					var data={
+						list:[],
+						order:[]
+					};
+					socket.emit('playlist first', data);
+				}
+				
+			}
+		});
+		
+		
 	});
 
 
