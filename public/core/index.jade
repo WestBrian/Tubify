@@ -1,11 +1,10 @@
 extends ../layout
 
-
-if(user)  
-	script.
-		var username = '#{user.username}';
 block content
 	include ../navbar/navbar
+	if(user)  
+		script.
+			var username = '#{user.username}';
 	script.
 		var pl = '#{pl}';
 
@@ -25,7 +24,7 @@ block content
 						.form-group
 							//- input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
 							.dropdown
-								input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)')
+								input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)', autocomplete='off')
 								ul.dropdown-menu.ddm
 									li.search-result(ng-repeat='result in searchList', ng-mouseenter='enterSearchList($index)', ng-click='playVideo()', ng-class='{selected :$index==counter}')
 										.row

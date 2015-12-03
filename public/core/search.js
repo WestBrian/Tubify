@@ -12,16 +12,19 @@ var socketMessages = {
 /* Classes in Javascript Example */
 
 // Video class
-function Video(title, videoUrl) {
+function Video(title, videoUrl, order) {
     this.title = title;
     this.videoUrl = videoUrl
+    this.order = order
+
+    this.setOrder = function(order) {
+        this.order = order
+    }
 
     this.getInfo = function() {
         return (title + ", " + videoUrl)
     }
 }
-
-var video  = new Video("New Video", "xyz");
 
 /* End Example */
 
@@ -398,18 +401,18 @@ $(function() {
         }
     });
 
-    // Remake of sortable method
-    var scope = angular.element($('#main')).scope();
+    // // Remake of sortable method
+    // var scope = angular.element($('#main')).scope();
 
-    $('#sortable').sortable({
-        update: function(event, ui) {
-        },
-        start: function(event, ui) {
-        }
-    });
+    // $('#sortable').sortable({
+    //     update: function(event, ui) {
+    //     },
+    //     start: function(event, ui) {
+    //     }
+    // });
 
     // Making video list "sortable"
-    /*var scope = angular.element($("#main")).scope();
+    var scope = angular.element($("#main")).scope();
     var a;
     $( "#sortable" ).sortable({
 
@@ -449,5 +452,5 @@ $(function() {
         },
     });
     $( "#sortable" ).disableSelection();
-    console.log('sortable');*/
+    console.log('sortable');
 });
