@@ -51,9 +51,15 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 
 	// Load clicked playlist
 	$scope.loadPlaylist = function(index) {
-		var playlistPath = 'http://localhost:3000/p/' + $scope.featuredPlaylists[index].title;
-
-		window.location.href = playlistPath;
+		//var playlistPath = 'http://localhost:3000/p/' + $scope.featuredPlaylists[index].title;
+		var scope = angular.element($("#main")).scope();
+		
+        scope.playlistField=$scope.featuredPlaylists[index].title;
+        $scope.socket.emit('join',$scope.featuredPlaylists[index].title);
+        //$scope.$apply();
+        localStorage.setItem("playlist", $scope.featuredPlaylists[index].title);
+        
+		//window.location.href = playlistPath;
 	}
 
 });
