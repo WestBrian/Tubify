@@ -251,10 +251,20 @@ io.on('connection', function(socket){
  		
     }); 
 	socket.on('join', function(msg) {
-		for (var key in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
-			socket.leave(key);
-		}
-		console.log('joined '+msg);
+		console.log(io.sockets.adapter.rooms);
+		// for (var room in socket.rooms){//io.sockets.manager.roomClients[socket.id]){
+			
+		// 	socket.leave(room);
+		// 	console.log('Leaving ' + room);
+			
+		// }
+		// var rooms = io.sockets.manager.roomClients[socket.id];
+		// for(room in rooms) {
+		// 	socket.leave(room);
+		// 	console.log('Leaving ' + room);
+		// }
+
+		//console.log('joined '+msg);
 		socket.join(msg);
 
 		playlist.findOne({ title:msg },function (err, doc){

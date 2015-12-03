@@ -338,9 +338,11 @@ app.controller('CoreController', function($scope){
     };
 
     $scope.playlistChange = function(){
-        console.log('yo');
-        console.log($scope.searchField);
-        $scope.socket.emit('join',$scope.playlistField);
+        if($scope.sync) {
+            $scope.sync = false;
+        }
+
+        $scope.socket.emit('join', $scope.playlistField);
         
         localStorage.setItem("playlist", $scope.playlistField);
 
