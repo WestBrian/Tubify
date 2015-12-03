@@ -59,6 +59,8 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
         //$scope.$apply();
         //localStorage.setItem("playlist", $scope.featuredPlaylists[index].title);
         scope.playlistChange();
+        // comment
+        // another comment
         
 		//window.location.href = playlistPath;
 	}
