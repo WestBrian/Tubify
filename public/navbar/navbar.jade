@@ -1,21 +1,15 @@
 .container-fluid
 	.row.nav.text-center.vcenter
 		.col-sm-2
-			h1.clear-margin.tubify-brand
-				a(href='http://localhost:3000') T U B I F Y
-		.col-sm-8
-			form(role='form', action='http://localhost:3000/', method='GET')
-				.form-group
-					input.form-control(type='text', name='playlist', placeholder='Enter a playlist')
+			span.clear-margin.tubify-brand
+				a(href='http://localhost:3000') Tubify
+		.col-sm-8.hidden-xs
 		.col-sm-2
 			.row
 				.col-xs-6
-					.dropdown
-						h3
-							span.glyphicon.glyphicon-user.style-glyph.dropdown-toggle(aria-hidden='true', id='userDropdown', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
-							ul.dropdown-menu(aria-labelledby='userDropdown')
-								li.text-center Username: #{user.username}
+					.circle
+						span.glyphicon.glyphicon-user.style-glyph
 				.col-xs-6
-					h3
+					.circle
 						a(href='/logout')
-							span.glyphicon.glyphicon-log-out.style-glyph(aria-hidden='true')
+							span.glyphicon.glyphicon-log-out.style-glyph

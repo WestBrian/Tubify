@@ -9,6 +9,22 @@ var socketMessages = {
     syncedUser: 'Sync'
 }
 
+/* Classes in Javascript Example */
+
+// Video class
+function Video(title, videoUrl) {
+    this.title = title;
+    this.videoUrl = videoUrl
+
+    this.getInfo = function() {
+        return (title + ", " + videoUrl)
+    }
+}
+
+var video  = new Video("New Video", "xyz");
+
+/* End Example */
+
 app.controller('CoreController', function($scope){
 
     // Properties
@@ -57,7 +73,7 @@ app.controller('CoreController', function($scope){
 
 
         $scope.list1.push(obj);
-        player.loadVideoById(msg.urlId);
+        //player.loadVideoById(msg.urlId);
         $scope.indexList=[];
         for (var i = 0; i <$scope.list1.length; i++) {
             $scope.indexList.push(i);
@@ -186,7 +202,17 @@ app.controller('CoreController', function($scope){
         }
 
     };
-  
+
+    $scope.addVideo = function() {
+        var data = {
+            title: $scope.searchList[$scope.counter].title,
+            urlId: $scope.searchList[$scope.counter].videoId,
+            thumb: $scope.searchList[$scope.counter].thumb,
+            searchField: $scope.searchField,
+            room: $scope.playlistField
+        }
+    }
+
     $scope.playVideo = function(){   //gets called when clicking a searched video, or pressing enter
         console.log('play video');
         var data = {
@@ -323,6 +349,7 @@ app.directive('ngScroll', function () {
 });
 
 $(function() {
+    // Hiding dropdown menu * doesn't hide on clicking page *
     $(".dropdown-menu").dropdown('toggle');
     $(".dropdown-menu").hide();
     $("#search").click(function(e){
@@ -334,7 +361,19 @@ $(function() {
             $('.dropdown-menu').hide();
         }
     });
-    var scope = angular.element($("#main")).scope();
+
+    // Remake of sortable method
+    var scope = angular.element($('#main')).scope();
+
+    $('#sortable').sortable({
+        update: function(event, ui) {
+        },
+        start: function(event, ui) {
+        }
+    });
+
+    // Making video list "sortable"
+    /*var scope = angular.element($("#main")).scope();
     var a;
     $( "#sortable" ).sortable({
 
@@ -374,5 +413,5 @@ $(function() {
         },
     });
     $( "#sortable" ).disableSelection();
-    console.log('sortable');
+    console.log('sortable');*/
 });

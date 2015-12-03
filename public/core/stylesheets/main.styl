@@ -1,36 +1,27 @@
 body
 	background-color: #eee
+	-webkit-font-smoothing: antialiased
 
-.nav
-	background-color: #6699FF
-	padding: 10px
-	margin-bottom: 20px
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
-	
-	& h1
-		margin: 0
-		padding: 0
-	& h3
-		margin: 0
-		padding: 0
-	& .form-group
-		margin: 0
+// -- Helper classes -- //
+
+.clear-all
+	margin: 0
+	padding: 0
 
 .tubify-brand
+	cursor: pointer
+	//font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+	//font-family: 'Arial'
 	
+	font-size: 1.5em
+
 	& a
 		color: white
 		text-decoration: none
 	
-		&:hover
+		&:active
 			color: #eee
-
-.style-glyph
-	color: white
-	cursor: pointer
-	margin-right: 20px
-	&:hover
-		color: #eee
+			
 .test
 	display: relative
 
@@ -48,7 +39,7 @@ body
 	padding: 10px
 	margin-bottom: 10px
 	background-color: #6699FF
-	border-radius: 3px
+	//border-radius: 3px
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5)
 
 .recolor-white
@@ -114,11 +105,26 @@ body
 .pointer
 	cursor: pointer
 
-.video
+// -- Video list -- //
+
+.video-item
 	cursor: pointer
+	max-height: 50px
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis;
 	
 	&:hover
 		background-color: #DFECF7
+
+.remove-button
+	
+	&:hover
+		color: red
+
+.hide-overflow
+	max-width: 80%
+	overflow: hidden
 
 // -- Sync -- //
 
@@ -141,7 +147,7 @@ body
 
 .title-card
 	background-color: white
-	font-family: 'Geneva'
+	//font-family: 'Geneva'
 	padding: 10px 0
 	text-align: center
 	box-shadow: 0 0 2px rgba(0, 0, 0, 0.5)
@@ -158,6 +164,40 @@ body
 	&:hover
 		background-color: #eee
 
+// -- Navbar -- //
+
+.nav
+	background-color: #6699FF
+	padding: 10px
+	margin-bottom: 20px
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
+	
+	& h1
+		margin: 0
+		padding: 0
+	& h3
+		margin: 0
+		padding: 0
+	& .form-group
+		margin: 0
+
+.circle
+	//background-color: #80bfff
+	border-radius: 50%
+	width: 40px
+	height: 40px
+	//border: 2px solid #80bfff
+	padding: 5px
+	cursor: pointer
+	
+	&:active
+		background-color: #4d88ff
+	
+.style-glyph
+	color: white
+	cursor: pointer
+	margin: 0 auto
+	font-size: 1.5em
 
 
 
