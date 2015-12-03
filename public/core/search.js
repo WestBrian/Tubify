@@ -357,6 +357,7 @@ app.controller('CoreController', function($scope){
         }
         */
     };
+    
     $scope.deleteVideo = function(index){
         var data={
             playlist:$scope.playlistField,
