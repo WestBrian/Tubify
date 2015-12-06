@@ -35,7 +35,9 @@ block content
 												img.img-responsive(ng-src='{{ result.thumb }}')
 											.col-xs-6
 												span.text-muted {{ result.title }}
-						span.glyphicon.glyphicon-refresh.hover-orange(ng-click='sync2()')  {{sync}}
+						.ran sync &nbsp&nbsp&nbsp&nbsp repeat
+						span.glyphicon.glyphicon-refresh.hover-orange(ng-click='sync2()', ng-class="{on:sync}") &nbsp&nbsp&nbsp
+						span.glyphicon.glyphicon-repeat.hover-orange(ng-click='toggleRepeat()', ng-class="{on:repeat}")  
 					//- ul.list-group
 					//- 	li.list-group-item(data-ng-repeat='item in searchList' ng-class='{selected :$index==counter}' ng-mouseenter='enterSearchList($index)' ng-click='playVideo()')
 					//- 		.row

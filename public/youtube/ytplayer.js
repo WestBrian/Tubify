@@ -57,15 +57,20 @@ function onPlayerStateChange(event){
     console.log(event);
      var scope = angular.element($("#main")).scope();
     if(event.data == done){
-        if(scope.playlistIndex == scope.list1.length - 1){
-            scope.playlistIndex = 0;
-        }else{
-            scope.playlistIndex += 1;
+        if(scope.repeat==false){
+          if(scope.playlistIndex == scope.list1.length - 1){
+              scope.playlistIndex = 0;
+          }else{
+              scope.playlistIndex += 1;
+          }
+          console.log(scope.indexList[scope.playlistIndex]);
+          console.log(scope.playlistIndex);
+          player.loadVideoById(scope.list1[scope.indexList[scope.playlistIndex]].urlId);
+          scope.$apply();
         }
-        console.log(scope.indexList[scope.playlistIndex]);
-        console.log(scope.playlistIndex);
-        player.loadVideoById(scope.list1[scope.indexList[scope.playlistIndex]].urlId);
-        scope.$apply();
+        else{
+          player.seekTo(0);
+        }
     }
 }
 

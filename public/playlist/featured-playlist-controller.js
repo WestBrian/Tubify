@@ -36,7 +36,7 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 	
 	// Properties
 	$scope.featuredPlaylists = [];
-	const limit = 5;
+	const limit = 20;
 
 	// -- Playlist functions -- //
 

@@ -118,7 +118,7 @@ app.controller('CoreController', function($scope){
         $scope.$apply();
     });
 
-
+    $scope.repeat=false;
     var searchText = $scope.searchField;
     var realCounter=0;
     $scope.list1 = [];
@@ -139,8 +139,10 @@ app.controller('CoreController', function($scope){
         startPlayer();    
     }
 
-    
-    
+    $scope.toggleRepeat = function(){
+        $scope.repeat=!$scope.repeat;
+
+    }
 
     $scope.search = function(){
         // Resetting variables
