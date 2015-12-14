@@ -140,7 +140,9 @@ io.on('connection', function(socket){
 									}
 									var data={
 										list:playlistToSend,
-										order:doc.order
+										order:doc.order,
+										indexList:msg.list,
+										index:msg.index
 									};
 									console.log('emittign playlist');
 									io.to(msg.playlist).emit('playlist', data);

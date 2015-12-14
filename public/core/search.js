@@ -98,7 +98,17 @@ app.controller('CoreController', function($scope){
     $scope.socket.on('playlist', function(msg){
         console.log('playlist');
         //$scope.playlistIndex=msg.indexList[$scope.playlistIndex];
-        $scope.playlistIndex=msg.indexList.indexOf($scope.playlistIndex);
+        if (typeof msg.indexList !== 'undefined') {
+            $scope.playlistIndex=msg.indexList.indexOf($scope.playlistIndex);
+        }
+        if (typeof msg.index !== 'undefined') {
+            if (msg.index<$scope.playlistIndex){
+                $scope.playlistIndex--;
+            }
+            else if(msg.index==$scope.playlistIndex){
+                $scope.playlistIndex=null;
+            }
+        }
         //$scope.list1=msg[0];
         $scope.list1=[];
         $scope.indexList=[];

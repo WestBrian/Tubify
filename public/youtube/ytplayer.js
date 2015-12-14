@@ -58,7 +58,7 @@ function onPlayerStateChange(event){
      var scope = angular.element($("#main")).scope();
     if(event.data == done){
         if(scope.repeat==false){
-          if(scope.playlistIndex == scope.list1.length - 1){
+          if((scope.playlistIndex == scope.list1.length - 1) || scope.playlistIndex==null){
               scope.playlistIndex = 0;
           }else{
               scope.playlistIndex += 1;
@@ -73,6 +73,7 @@ function onPlayerStateChange(event){
         }
     }
 }
+
 
 // 5. The API calls this function when the player's state changes.
 //    The function indicates that when playing a video (state=1),
