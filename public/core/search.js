@@ -62,8 +62,9 @@ app.controller('CoreController', function($scope){
 
     $scope.socket.on('change order successful', function(msg) { 
         //$scope.playlistIndex=$scope.indexList[$scope.playlistIndex];
+        console.log('changing order zzzzzzzzzzzzzzzzzzzzzz');
         $scope.playlistIndex=msg.indexList[$scope.playlistIndex];
-        console.log('changing order');
+        
         $scope.playlistChange();
         $scope.$apply();
     });
@@ -95,7 +96,9 @@ app.controller('CoreController', function($scope){
         $scope.$apply();
     });
     $scope.socket.on('playlist', function(msg){
-
+        console.log('playlist');
+        //$scope.playlistIndex=msg.indexList[$scope.playlistIndex];
+        $scope.playlistIndex=msg.indexList.indexOf($scope.playlistIndex);
         //$scope.list1=msg[0];
         $scope.list1=[];
         $scope.indexList=[];

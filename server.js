@@ -18,13 +18,13 @@ var routes = require('./server/routes/routes');
 
 //var mongoose = require('mongoose');
 //var mongo=require('./server/models/dbConnect');
-/* //uncomment for https
-var fs = require('fs');
-var https = require('https');
-var privateKey  = fs.readFileSync('./server/keys/tubify.key', 'utf8');
-var certificate = fs.readFileSync('./server/keys/tubify.cert', 'utf8');
-var credentials = {key: privateKey, cert: certificate};
-*/
+ //uncomment for https
+// var fs = require('fs');
+// var https = require('https');
+// var privateKey  = fs.readFileSync('./server/keys/tubify.key', 'utf8');
+// var certificate = fs.readFileSync('./server/keys/tubify.cert', 'utf8');
+// var credentials = {key: privateKey, cert: certificate};
+
 
 // Database
 //mongoose.connect('mongodb://'+ cred.user +':'+ cred.password +'@ds051833.mongolab.com:51833/tubify');
@@ -80,10 +80,10 @@ passport.deserializeUser(Account.deserializeUser());
 app.use(routes);
 
 // Starting server
-/*  //https
-var server = https.createServer(credentials, app);
-server.listen(3000, function(){
-*/ //https
+  //https
+//var server = https.createServer(credentials, app);
+//server.listen(3000, function(){
+ //https
 var server = app.listen(app.get('port'), function(){
 var host = server.address().address;
 var port = server.address().port;
@@ -132,7 +132,21 @@ io.on('connection', function(socket){
 						}
 						else{
 							console.log('delete successful');
-							io.to(msg.playlist).emit('delete successful', msg);
+							video.find({'_id':{$in:doc.videos}},function (err, doc2){
+								if (doc2!=null){
+									var playlistToSend=[];
+									for (var i=0; i<doc2.length; i++){
+										playlistToSend.push(doc2[i])
+									}
+									var data={
+										list:playlistToSend,
+										order:doc.order
+									};
+									console.log('emittign playlist');
+									io.to(msg.playlist).emit('playlist', data);
+								}
+							});
+							//io.to(msg.playlist).emit('delete successful', msg);
 						}
 					});
 
@@ -173,7 +187,32 @@ io.on('connection', function(socket){
 						}
 						else{
 							console.log('saveOrder successful');
-							io.to(msg.playlist).emit('change order successful', msg);
+							var data={
+								list:doc.videos,
+								order:doc.order
+							};
+
+							video.find({'_id':{$in:doc.videos}},function (err, doc2){
+								if (doc2!=null){
+									var playlistToSend=[];
+									for (var i=0; i<doc2.length; i++){
+										playlistToSend.push(doc2[i])
+									}
+									var data={
+										list:playlistToSend,
+										order:doc.order,
+										indexList:msg.indexList
+									};
+									console.log('emittign playlist');
+									io.to(msg.playlist).emit('playlist', data);
+								}
+							});
+
+
+							//io.to(msg.playlist).emit('playlist', data);
+							//io.to(msg.playlist).emit('change order successful', msg);
+							//socket.broadcast.to(msg.playlist).emit('change order successful', msg);
+							console.log('emitted change order successful');
 						}
 					});
 
@@ -303,7 +342,7 @@ io.on('connection', function(socket){
 		});
 		
 		
-	}); 
+	});
 	socket.on('join first', function(msg) {   //identical to join but for when client first opens page, to prevent default video from playing
 		var rooms = io.sockets.adapter.sids[socket.id];
        for(var room in rooms) {
@@ -365,6 +404,8 @@ io.on('connection', function(socket){
 
 
 });
+
+
 
 /*
 // sending to sender-client only
