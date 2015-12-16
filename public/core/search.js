@@ -116,6 +116,7 @@ app.controller('CoreController', function($scope){
             $scope.indexList.push(i);
             $scope.list1.push(msg.list[msg.order[i]]);
         }
+        window.history.pushState("object or string", "Title", "/p/"+$scope.playlistField);
         $scope.$apply();
     });
     $scope.socket.on('playlist first', function(msg){
