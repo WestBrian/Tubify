@@ -395,6 +395,11 @@ $(document).on("keydown keyup", ".searchBox", function(event) {
         event.preventDefault();
     }
 });
+$(document).on("keyup", "#playlistField", function(event) { 
+    if(event.keyCode==13){
+        document.activeElement.blur();
+    }
+});
 
 app.directive('ngScroll', function () {
     return function (scope, element, attrs) {
@@ -488,14 +493,23 @@ function unBlurFunction(){
     $('.ddm').show();
 }
 $(document).on("keyup", function(event) { 
-    if(event.keyCode==80){
-        if ($('*:focus').length == 0) {
+    if ($('*:focus').length == 0) {
+        if(event.keyCode==80){
+       
      //do Something
 
-        console.log('p key');
-        document.getElementById("playlistField").focus();
-        document.getElementById("playlistField").select();
+            console.log('p key');
+            document.getElementById("playlistField").focus();
+            document.getElementById("playlistField").select();
+        }
+        if(event.keyCode==83){
+       
+     //do Something
+
+            document.getElementById("search").focus();
+            document.getElementById("search").select();
         }
     }
+
     
 });
