@@ -42,6 +42,7 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 
 	// Load all playlists
 	$http.get('/p', {}).then(function(response) {
+		console.log('this shoudlnt be used');
 		$scope.featuredPlaylists = response.data;
 		$scope.featuredPlaylists = removeBlankTitles($scope.featuredPlaylists);
 		$scope.featuredPlaylists = limitArrayTo($scope.featuredPlaylists, limit);

@@ -164,6 +164,9 @@ io.on('connection', function(socket){
 
  	});
  	socket.on('changeOrder', function(msg){
+ 		var rooms2 = io.sockets.adapter.sids[socket.id];
+        console.log('rooms change order:');
+        console.log(rooms2);
         playlist.findOne({ title:msg.playlist },function (err, doc){
         	if(err){
 				console.log('error');
@@ -294,14 +297,10 @@ io.on('connection', function(socket){
 	socket.on('join', function(msg) {
 
 		var rooms = io.sockets.adapter.sids[socket.id];
-       for(var room in rooms) {
-           socket.leave(room);	
-           console.log('left '+room);
-       }
-		console.log(socket.adapter.rooms);
-		console.log('joined '+msg);
-		socket.join(msg);
-
+       	for(var room in rooms) {
+          	socket.leave(room);	
+            console.log('left '+room);
+        }
 		playlist.findOne({ title:msg },function (err, doc){
 			if(err){
 				console.log('error');
@@ -327,7 +326,8 @@ io.on('connection', function(socket){
 								list:playlistToSend,
 								order:doc.order
 							};
-
+							socket.join(msg);
+							console.log('emitting pl to single user');
 							socket.emit('playlist', data);
 						}
 					});
@@ -337,6 +337,7 @@ io.on('connection', function(socket){
 						list:[],
 						order:[]
 					};
+					socket.join(msg);
 					socket.emit('playlist', data);
 				}
 				
