@@ -22,12 +22,12 @@ block content
 						.form-group
 							.input-group
 								.input-group-addon Playlist
-								input.form-control(type='text', ng-model='playlistField', data-ng-change='playlistChange()')
+								input.form-control(id="playlistField", type='text', ng-model='playlistField', data-ng-change='playlistChange()')
 						//-button.btn.btn-default(type='button', ng-click='sync()') Sync
 						.form-group
 							//- input.form-control#search(type='text', autocomplete='off', placeholder='Search...', data-ng-model='searchField', data-ng-change='search()', data-ng-keydown='displayKey($event)')
 							.dropdown
-								input.form-control(type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)')
+								input.form-control(onblur="blurFunction()", onfocus="unBlurFunction()", type='text', id='search', placeholder='Search', ng-model='searchField', ng-change='search()', ng-keydown='displayKey($event)')
 								ul.dropdown-menu.ddm
 									li.search-result(ng-repeat='result in searchList', ng-mouseenter='enterSearchList($index)', ng-click='playVideo()', ng-class='{selected :$index==counter}')
 										.row

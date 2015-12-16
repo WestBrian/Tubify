@@ -204,6 +204,7 @@ app.controller('CoreController', function($scope){
     $scope.displayKey = function($event){
         var realLength=latestSearchResponse.items.length;
         if ($event.keyCode == 38) {
+            $event.preventDefault();
             if ($scope.counter > 0) {
                 $scope.counter--;
                 realCounter--;
@@ -222,6 +223,7 @@ app.controller('CoreController', function($scope){
             }
         }
         if ($event.keyCode == 40) {
+            $event.preventDefault();
             if ($scope.counter < Math.min(2,realLength-1)) {
                 $scope.counter++;
                 realCounter++;
@@ -239,8 +241,10 @@ app.controller('CoreController', function($scope){
                 }
             }
         }
-
-        if ($event.keyCode == 13) {
+        if ($event.keyCode == 27) { // escape
+            document.activeElement.blur();
+        }
+        if ($event.keyCode == 13) {  //enter
             $scope.playVideo();
         }
 
@@ -472,4 +476,26 @@ $(function() {
     });
     $( "#sortable" ).disableSelection();
     console.log('sortable');
+});
+function blurFunction(){
+    console.log('blur function');
+    document.activeElement.blur();
+    $('.ddm').hide();
+}
+function unBlurFunction(){
+    console.log('blur function');
+    //get scope and check if search has anything in it and if it does then do $("#ddm").show()
+    $('.ddm').show();
+}
+$(document).on("keyup", function(event) { 
+    if(event.keyCode==80){
+        if ($('*:focus').length == 0) {
+     //do Something
+
+        console.log('p key');
+        document.getElementById("playlistField").focus();
+        document.getElementById("playlistField").select();
+        }
+    }
+    
 });
