@@ -176,8 +176,8 @@ app.controller('CoreController', function($scope){
             maxResults: '15'
         });
 
-        if($scope.searchField != ''){
-            console.log('show');
+        if($scope.searchField != '' && $scope.searchField != null){
+            console.log('showing');
             $(".ddm").show();
             request.execute(function(response){
                 latestSearchResponse=response;
@@ -395,7 +395,7 @@ $(document).on("keydown keyup", ".searchBox", function(event) {
         event.preventDefault();
     }
 });
-$(document).on("keyup", "#playlistField", function(event) { 
+$(document).on("keyup", function(event) { 
     if(event.keyCode==13){
         document.activeElement.blur();
     }
@@ -422,7 +422,7 @@ $(function() {
     $("#search").click(function(e){
         console.log('Clicked 1');
         e.preventDefault();
-        if(($('#search').val() == null) || ($('#search').val() === '')){
+        if(($('#search').val() == null) || ($('#search').val() == '')){
             console.log('NULL 2');
 
             $('.ddm').hide();
@@ -485,16 +485,31 @@ $(function() {
 function blurFunction(){
     console.log('blur function');
     document.activeElement.blur();
-    $('.ddm').hide();
+    if ($('.ddm:hover').length == 0) {
+    // do something ;)
+$('.ddm').hide();
+    }
+    
+
 }
+
+
 function unBlurFunction(){
-    console.log('blur function');
+    console.log('focus function');
     //get scope and check if search has anything in it and if it does then do $("#ddm").show()
-    $('.ddm').show();
+    var scope = angular.element($('#main')).scope();
+    if(scope.searchField!="" && scope.searchField != null){
+        console.log(scope.searchField);
+        console.log('show');
+        $('.ddm').show();
+    }
+    
 }
+
 $(document).on("keyup", function(event) { 
+
     if ($('*:focus').length == 0) {
-        if(event.keyCode==80){
+        if(event.keyCode==80 || event.keyCode==49){  //p key
        
      //do Something
 
@@ -502,13 +517,16 @@ $(document).on("keyup", function(event) {
             document.getElementById("playlistField").focus();
             document.getElementById("playlistField").select();
         }
-        if(event.keyCode==83){
+        if(event.keyCode==83 || event.keyCode==50){  //s key
        
      //do Something
 
             document.getElementById("search").focus();
             document.getElementById("search").select();
         }
+    }
+    if (event.keyCode == 27) { // escape
+        document.activeElement.blur();
     }
 
     

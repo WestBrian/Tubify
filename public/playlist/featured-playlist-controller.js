@@ -42,7 +42,7 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 
 	// Load all playlists
 	$http.get('/p', {}).then(function(response) {
-		console.log('this shoudlnt be used');
+		//maybe should switch to socket 
 		$scope.featuredPlaylists = response.data;
 		$scope.featuredPlaylists = removeBlankTitles($scope.featuredPlaylists);
 		$scope.featuredPlaylists = limitArrayTo($scope.featuredPlaylists, limit);
@@ -56,6 +56,7 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 		var scope = angular.element($("#main")).scope();
 		
         scope.playlistField = $scope.featuredPlaylists[index].title;
+        
         //$scope.socket.emit('join', $scope.featuredPlaylists[index].title);
         //$scope.$apply();
         //localStorage.setItem("playlist", $scope.featuredPlaylists[index].title);
