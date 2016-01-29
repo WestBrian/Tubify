@@ -1,18 +1,18 @@
 .row.chat-container(ng-controller='ChatController')
     .col-sm-2
         .chat-userbox.bg-primary
-            ul#user-list(ng-repeat='user in users')
-                li {{user}}
+            ul#user-list
+                li user1
     .col-sm-10.chat-window
         .row
             .col-sm-12
                 .chat-messages.bg-info
-                    ul#message-list(ng-repeat='message in messages')
-                        li {{message}}
+                    ul#message-list
+                        li sadljkf
         .row
             .col-sm-9.chat-input
-                form(role='form', ng-submit='saveMessage()')
+                form(role='form')
                     .form-group
-                        input.form-control(type='text', ng-model='chatInput')
+                        input.form-control(type='text')
             .col-sm-3
                 button.form-control(type='submit') Submit
