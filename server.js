@@ -39,6 +39,7 @@ db.once('open', function(){
 
 var video = require('./server/models/video.js');
 var playlist = require('./server/models/playlist.js');
+var message = require('./server/models/message.js');
 /*
 
 var a = new video({
@@ -108,6 +109,28 @@ io.on('connection', function(socket){
  		}
  		//io.in(data.playlist).emit('receiveSync', data.username);
  	});
+
+ 	socket.on('send message', function(msg){
+ 		//msg.name
+ 		//msg.message
+ 		//msg.playlist
+ 		var messageToSave = new message({
+ 			name: msg.name,
+ 			message: msg.message,
+ 			playlist: msg.playlist
+ 			});
+ 		messageToSave.save(function (err){
+			if (err){
+				console.log('error saving sent message');
+			}
+			else{
+				io.to(msg.playlist).emit('message', messageToSave);
+			}
+		});
+
+
+ 	});
+
 
  	socket.on('delete video', function(msg){
  		playlist.findOne({ title:msg.playlist },function (err, doc){
