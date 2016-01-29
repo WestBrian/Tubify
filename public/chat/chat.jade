@@ -1,12 +1,18 @@
-div#chat-container.row
-    div#chat-userbox.col-sm-3
-    .col-sm-9
+.row.chat-container
+    .col-sm-2(style="height:100%")
+        .chat-userbox.bg-primary
+            ul#user-list
+                li user1
+    .col-sm-10.chat-window
         .row
-            div#chat-messages
-                .form-group
-                    textarea.form-control(rows='4', cols='50', readonly)
+            .col-sm-12
+                .chat-messages.bg-info
+                    ul#message-list
+                        li sadljkf
         .row
-            div#chat-input
+            .col-sm-9.chat-input
                 form(role='form')
                     .form-group
                         input.form-control(type='text')
+            .col-sm-3
+                button.form-control(type='submit') Submit
