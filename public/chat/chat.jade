@@ -7,12 +7,12 @@
         .row
             .col-sm-12
                 .chat-messages.bg-info
-                    ul#message-list(ng-repeat='message in messages')
+                    ul#message-list(ng-repeat='message in messages track by $index')
                         li {{message}}
         .row
             .col-sm-9.chat-input
                 form(role='form', ng-submit='saveMessage()')
                     .form-group
-                        input.form-control(type='text', ng-model='chatInput')
+                        input.form-control.chat-field(type='text', ng-model='chatInput')
             .col-sm-3
                 button.form-control(type='submit', ng-click='saveMessage()') Submit

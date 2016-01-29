@@ -397,7 +397,13 @@ $(document).on("keydown keyup", ".searchBox", function(event) {
 });
 $(document).on("keyup", function(event) { 
     if(event.keyCode==13){
+        if ($(".chat-field").is(":focus")) {
+
+        }
+        else{
+      //zzz  if(document.activeElement)
         document.activeElement.blur();
+        }
     }
 });
 
@@ -487,7 +493,7 @@ function blurFunction(){
     document.activeElement.blur();
     if ($('.ddm:hover').length == 0) {
     // do something ;)
-$('.ddm').hide();
+        $('.ddm').hide();
     }
     
 

@@ -1,8 +1,8 @@
 'use strict';
 
 app.controller('ChatController', function($scope) {
-    $scope.users = ['user1', 'user2', 'user3'];
-    $scope.messages = ['msg1', 'msg2'];
+    $scope.users = [];
+    $scope.messages = [];
     var scope = angular.element($("#main")).scope();
 
     $scope.getUsers = function() {};
@@ -20,6 +20,7 @@ app.controller('ChatController', function($scope) {
 
     // Socket functions
     scope.socket.on('message', function(data) {
+        console.log('received chat message');
         $scope.messages.push(data.name + ': ' + data.message);
         $scope.$apply();
     });
