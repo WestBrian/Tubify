@@ -8,6 +8,34 @@ var app = angular.module('Tubify', []);
 app.controller('LayoutController', function($scope) {});
 'use strict';
 
+app.controller('ChatController', function($scope) {
+    $scope.users = ['user1', 'user2'];
+    $scope.messages = [];
+    var scope = angular.element($("#main")).scope();
+
+    $scope.getUsers = function() {};
+    $scope.getMessages = function() {};
+    $scope.saveMessage = function() {
+        var messageObject = {
+            name: username || 'guest',
+            message: $scope.chatInput,
+            playlist: scope.playlistField
+        }
+        $scope.chatInput = '';
+        scope.socket.emit('send message', messageObject);
+        //$scope.messages.push(message);
+    };
+
+    // Socket functions
+    scope.socket.on('message', function(data) {
+        console.log('received chat message');
+        $scope.messages.push(data.name + ': ' + data.message);
+        $scope.$apply();
+    });
+});
+
+'use strict';
+
 //var app = angular.module('tubify', []);
 var latestSearchResponse;
 var socketRoom='';
@@ -405,7 +433,12 @@ $(document).on("keydown keyup", ".searchBox", function(event) {
 });
 $(document).on("keyup", function(event) { 
     if(event.keyCode==13){
-        document.activeElement.blur();
+        if ($(".chat-field").is(":focus")) {
+
+        }
+        else{
+            document.activeElement.blur();
+        }
     }
 });
 
@@ -495,7 +528,7 @@ function blurFunction(){
     document.activeElement.blur();
     if ($('.ddm:hover').length == 0) {
     // do something ;)
-$('.ddm').hide();
+        $('.ddm').hide();
     }
     
 

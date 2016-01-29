@@ -401,8 +401,7 @@ $(document).on("keyup", function(event) {
 
         }
         else{
-      //zzz  if(document.activeElement)
-        document.activeElement.blur();
+            document.activeElement.blur();
         }
     }
 });

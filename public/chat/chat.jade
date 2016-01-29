@@ -1,6 +1,6 @@
-.row.chat-container(ng-controller='ChatController')
+.row.chat-container.bg-primary(ng-controller='ChatController')
     .col-sm-2
-        .chat-userbox.bg-primary
+        .chat-userbox
             ul#user-list(ng-repeat='user in users')
                 li {{user}}
     .col-sm-10.chat-window

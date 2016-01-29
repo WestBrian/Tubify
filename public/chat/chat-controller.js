@@ -1,7 +1,7 @@
 'use strict';
 
 app.controller('ChatController', function($scope) {
-    $scope.users = [];
+    $scope.users = ['user1', 'user2'];
     $scope.messages = [];
     var scope = angular.element($("#main")).scope();
 
