@@ -1,16 +1,16 @@
 .chat-container(ng-controller='ChatController')
     //-add padding to .random to get extra box (10 px)
-    .random.bg-primary(style="height:100%;") 
-        .random2.bg-info(style="height:100%; padding:10px")
-            .user.bg-primary(style="height:100%; width:25%; float:left; margin-right:5px")
+    .wrapper1(style="height:100%;") 
+        .wrapper2(style="height:100%; padding:10px")
+            .user-area(style="height:100%; width:25%; float:left; margin-right:5px")
                 .chat-userbox(style=" height:100%")
                     ul#user-list(ng-repeat='user in users')
                         li {{user}}
-            .user.bg-primary(style="height:100%; width:73%; float: right; position:relative")
-                .chat-messages.bg-primary(style=" width:100%; overflow-y:auto")
+            .message-area(style="height:100%; width:73%; float: right; position:relative")
+                .chat-messages(style=" width:100%; overflow-y:auto")
                     ul#message-list(ng-repeat='message in messages track by $index')
                         li {{message}}
-                .chat-inputz.bg-primary(style=" position:absolute; bottom:0;  width:100%;")
+                .chat-input(style=" position:absolute; bottom:0;  width:100%;")
                     
 
 
