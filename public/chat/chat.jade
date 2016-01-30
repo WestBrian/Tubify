@@ -6,7 +6,7 @@
                 .chat-userbox(style=" height:100%")
                     ul#user-list(ng-repeat='user in users')
                         li {{user}}
-            .message-area(style="height:100%; width:73%; float: right; position:relative")
+            .message-area(style="height:100%; float: right; position:relative")
                 .chat-messages(style=" width:100%; overflow-y:auto")
                     ul#message-list(ng-repeat='message in messages track by $index')
                         li {{message}}
@@ -14,12 +14,12 @@
                     
 
 
-                    .textarea(style="width:70%;float:left;")
+                    .textarea(style="width:69%;float:left;")
                         form(role='form', ng-submit='saveMessage()')
                             .forms-group
-                                input.form-control.chat-field(type='text', ng-model='chatInput', style="width:100%;")
+                                input.form-control.chat-field(type='text', ng-model='chatInput', style="width:100%; border-radius:0px")
                     .submitbutton(style="width:30%;float:right")
-                        button.form-control(type='submit', ng-click='saveMessage()', style="width:100%;") Submit
+                        button.form-control(type='submit', ng-click='saveMessage()', style="width:100%; border-radius:0px") Submit
 
 
 

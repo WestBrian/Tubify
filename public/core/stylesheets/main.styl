@@ -208,7 +208,10 @@ body
 	min-height:200px
 	background-color:green
 ul 
+	padding-left: 7px
+	margin:0px
 	list-style-type: none
+	
 .wrapper1
 	background-color:black
 .wrapper2
@@ -216,10 +219,12 @@ ul
 .user-area
 	background-color:white
 .message-area
+	//width:73%
+	width 'calc(%s + %s)' % (75% -10px)
 	background-color: #6699FF
 .chat-messages
 	background-color:white
-	height 'calc(%s + %s)' % (100% -35px)//34 px is height of input
+	height 'calc(%s + %s)' % (100% -44px)//34 px is height of input
 	//height "calc(50%) "st
 .chat-input
 	background-color: #6699FF
