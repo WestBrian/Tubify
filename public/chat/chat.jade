@@ -1,18 +1,67 @@
-.row.chat-container.bg-primary(ng-controller='ChatController')
-    .col-sm-2
-        .chat-userbox
-            ul#user-list(ng-repeat='user in users')
-                li {{user}}
-    .col-sm-10.chat-window
-        .row
-            .col-sm-12
-                .chat-messages.bg-info
+.chat-container(ng-controller='ChatController')
+    .random.bg-primary(style="height:100%; padding:10px")
+        .random2.bg-info(style="height:100%; padding:10px")
+            .user.bg-primary(style="height:100%; width:25%; float:left; margin-right:5px")
+                .chat-userbox(style=" height:100%")
+                    ul#user-list(ng-repeat='user in users')
+                        li {{user}}
+            .user.bg-primary(style="height:100%; width:73%; float: right; position:relative")
+                .chat-messages.bg-primary(style=" width:100%; overflow-y:auto")
                     ul#message-list(ng-repeat='message in messages track by $index')
                         li {{message}}
-        .row
-            .col-sm-9.chat-input
-                form(role='form', ng-submit='saveMessage()')
-                    .form-group
-                        input.form-control.chat-field(type='text', ng-model='chatInput')
-            .col-sm-3
-                button.form-control(type='submit', ng-click='saveMessage()') Submit
+                .chat-inputz.bg-primary(style=" position:absolute; bottom:0;  width:100%;")
+                    
+
+
+                    .textarea(style="width:70%;float:left;")
+                        form(role='form', ng-submit='saveMessage()')
+                            .forms-group
+                                input.form-control.chat-field(type='text', ng-model='chatInput', style="width:100%;")
+                    .submitbutton(style="width:30%;float:right")
+                        button.form-control(type='submit', ng-click='saveMessage()', style="width:100%;") Submit
+
+
+
+//- .row.chat-container.bg-primary(ng-controller='ChatController')
+//-     .random.bg-info(style="height:100%; padding:15px")
+//-         .col-sm-2.bg-primary(style="height:100%; padding:10px")
+//-             .chat-userbox.bg-info(style=" height:100%")
+//-                 ul#user-list(ng-repeat='user in users', style="position: absolute; left:0px")
+//-                     li {{user}}
+//-         .col-sm-10.chat-window.bg-primary(style="height:100%; padding:10px")
+//-             .sup.bg-info(style="height:100%;")
+//-                 .row.bg-primary(style="height:80%")
+//-                     .col-sm-12(style="height:100%")
+//-                         .chat-messages(style="height:100%; overflow-y:auto")
+//-                             ul#message-list(ng-repeat='message in messages track by $index')
+//-                                 li {{message}}
+//-                 .row(style="min-height:34px;height:20%;position:absolute; bottom:0; width:100%")
+//-                     .col-sm-9.
+//-                         form(role='form', ng-submit='saveMessage()')
+//-                             .form-group
+//-                                 input.form-control.chat-field(type='text', ng-model='chatInput')
+//-                     .col-sm-3
+//-                         button.form-control(type='submit', ng-click='saveMessage()') Submit
+
+
+
+
+
+//- .row.chat-container(ng-controller='ChatController')
+//-     .col-sm-2.bg-primary(style="height:100%; padding:15px")
+//-         .chat-userbox.bg-info(style=" height:100%")
+//-             ul#user-list(ng-repeat='user in users')
+//-                 li {{user}}
+//-     .col-sm-10.chat-window.bg-primary(style="height:100%; padding:15px")
+//-         .row
+//-             .col-sm-12
+//-                 .chat-messages.bg-info
+//-                     ul#message-list(ng-repeat='message in messages track by $index')
+//-                         li {{message}}
+//-         .row(style="position: absolute; bottom: 0;")
+//-             .col-sm-9.chat-input
+//-                 form(role='form', ng-submit='saveMessage()')
+//-                     .form-group
+//-                         input.form-control.chat-field(type='text', ng-model='chatInput')
+//-             .col-sm-3
+//-                 button.form-control(type='submit', ng-click='saveMessage()') Submit

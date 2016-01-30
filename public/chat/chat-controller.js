@@ -23,5 +23,6 @@ app.controller('ChatController', function($scope) {
         console.log('received chat message');
         $scope.messages.push(data.name + ': ' + data.message);
         $scope.$apply();
+        $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
     });
 });
