@@ -19,9 +19,16 @@ app.controller('ChatController', function($scope) {
     };
 
     // Socket functions
-    scope.socket.on('message', function(data) {
+    scope.socket.on('message', function(data) {  //for single message
         console.log('received chat message');
-        $scope.messages.push(data.name + ': ' + data.message);
+        $scope.messages.push(data);
+        $scope.$apply();
+        $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
+    });
+    scope.socket.on('messages', function(data) {   //for getting all messages
+        console.log('received chat message');
+        $scope.messages=[];
+        $scope.messages.push.apply($scope.messages, data);
         $scope.$apply();
         $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
     });

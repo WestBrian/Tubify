@@ -345,9 +345,10 @@ io.on('connection', function(socket){
 							for (var i=0; i<doc2.length; i++){
 								playlistToSend.push(doc2[i])
 							}
+
 							var data={
 								list:playlistToSend,
-								order:doc.order
+								order:doc.order,
 							};
 							socket.join(msg);
 							console.log('emitting pl to single user');
@@ -360,11 +361,21 @@ io.on('connection', function(socket){
 						list:[],
 						order:[]
 					};
+					
 					socket.join(msg);
 					socket.emit('playlist', data);
 				}
 				
 			}
+			message.find({playlist:msg}).sort({dateAdded: 'ascending'}).exec(function(err, docs) { 
+				if(err){
+					console.log('error getting messages');
+					socket.emit('messages',null);
+				}
+				else{
+					socket.emit('messages',docs);
+				}
+			});
 		});
 		
 		
@@ -417,6 +428,15 @@ io.on('connection', function(socket){
 					socket.emit('playlist first', data);
 				}
 				
+			}
+		});
+		message.find({playlist:msg}).sort({dateAdded: 'ascending'}).exec(function(err, docs) { 
+			if(err){
+				console.log('error getting messages');
+				socket.emit('messages',null);
+			}
+			else{
+				socket.emit('messages',docs);
 			}
 		});
 		

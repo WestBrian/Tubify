@@ -9,7 +9,7 @@
             .message-area(style="height:100%; float: right; position:relative")
                 .chat-messages(style=" width:100%; overflow-y:auto")
                     ul#message-list(ng-repeat='message in messages track by $index')
-                        li {{message}}
+                        li {{message.name}}:  {{message.message}}
                 .chat-input(style=" position:absolute; bottom:0;  width:100%;")
                     
 
