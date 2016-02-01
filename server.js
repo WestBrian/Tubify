@@ -15,6 +15,40 @@ var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./server/routes/routes');
 
+//put all this into new file
+//////////////////////////
+
+
+function client(socketId, name, room) {
+    this.name = name;
+    this.socketId = socketId;
+    if (room) {
+        this.room = room;
+    } else {
+        this.room = 'home';
+    }
+}
+
+function clientList() {
+    this.clients = {};
+}
+clientList.prototype.add = function(socketId, name, room) {
+    if (room) {
+        this.clients[socketId]=(new client(socketId,name, room));
+
+    } else {
+        this.clients[socketId]=(new client(socketId, name));
+    }
+}
+clientList.prototype.changeRoom = function(socketId, newRoom) {
+	this.clients[socketId].room=newRoom;
+}
+clientList.prototype.getName = function(socketId) {
+	return this.clients[socketId].name;
+}
+///////////////////////////
+var clients=new clientList();
+//////////////////////////
 
 //var mongoose = require('mongoose');
 //var mongo=require('./server/models/dbConnect');
@@ -96,6 +130,11 @@ var port = server.address().port;
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
  	console.log('a user connected');
+
+ 	socket.on('store name', function (data) {
+ 		clients.add(socket.id,data.name,data.room);
+      	console.log('storing name');
+    });
  
  	socket.on('sync play video', function(data){
  		io.in(data.playlist+'#sync').emit('sync play video', data);
@@ -114,8 +153,10 @@ io.on('connection', function(socket){
  		//msg.name
  		//msg.message
  		//msg.playlist
+ 		console.log('recieved message from '+ msg.name);
  		var messageToSave = new message({
- 			name: msg.name,
+ 			//name: msg.name,
+ 			name: clients.getName(socket.id),
  			message: msg.message,
  			playlist: msg.playlist
  			});
