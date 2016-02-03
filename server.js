@@ -17,6 +17,19 @@ var routes = require('./server/routes/routes');
 
 //put all this into new file
 //////////////////////////
+/*
+function roomList() {
+	this.rooms={};
+}
+
+roomList.prototype.add = function(room, socketId){
+	if(!this.rooms[room]){
+		this.rooms[room]=new array();
+		this.room[room].push(socketId)
+	}
+}
+*/
+
 
 
 function client(socketId, name, room) {
@@ -27,6 +40,7 @@ function client(socketId, name, room) {
     } else {
         this.room = 'home';
     }
+    this.synced=false;
 }
 
 function clientList() {
@@ -40,11 +54,40 @@ clientList.prototype.add = function(socketId, name, room) {
         this.clients[socketId]=(new client(socketId, name));
     }
 }
+clientList.prototype.remove = function(socketId){
+	try{
+		var oldRoom=this.clients[socketId].room;
+		delete this.clients[socketId];
+		return(oldRoom);
+	}
+	catch(err){}
+}
 clientList.prototype.changeRoom = function(socketId, newRoom) {
+	var oldRoom=this.clients[socketId].room;
 	this.clients[socketId].room=newRoom;
+	this.clients[socketId].synced=false;
+	return(oldRoom);
 }
 clientList.prototype.getName = function(socketId) {
 	return this.clients[socketId].name;
+}
+clientList.prototype.sync = function(socketId) {
+	return this.clients[socketId].synced=!this.clients[socketId].synced;
+}
+
+clientList.prototype.getUsersFromRoom = function(room) {
+	var self=this.clients;
+	var userList=[];
+	Object.keys(self).forEach(function(key,index) {
+		console.log(self[key].room);
+		if (self[key].room==room){
+			userList.push(self[key]);
+		}
+	    // key: the name of the object key
+	    // index: the ordinal position of the key within the object 
+	});
+	return userList;
+
 }
 ///////////////////////////
 var clients=new clientList();
@@ -130,10 +173,16 @@ var port = server.address().port;
 var io = require('socket.io')(server);
 io.on('connection', function(socket){
  	console.log('a user connected');
+ 	socket.on('disconnect', function() {
+	    console.log('a user quit');
+	    var roomToUpdate=clients.remove(socket.id);
+	    io.to(roomToUpdate).emit('userList', clients.getUsersFromRoom(roomToUpdate));
 
+   	});
  	socket.on('store name', function (data) {
  		clients.add(socket.id,data.name,data.room);
       	console.log('storing name');
+      	io.to(data.room).emit('userList', clients.getUsersFromRoom(data.room));
     });
  
  	socket.on('sync play video', function(data){
@@ -146,6 +195,8 @@ io.on('connection', function(socket){
  		else{
  			socket.leave(data.playlist+'#sync')
  		}
+ 		clients.sync(socket.id);
+ 		io.to(data.playlist).emit('userList', clients.getUsersFromRoom(data.playlist));
  		//io.in(data.playlist).emit('receiveSync', data.username);
  	});
 
@@ -365,6 +416,16 @@ io.on('connection', function(socket){
           	socket.leave(room);	
             console.log('left '+room);
         }
+        try {
+        	var roomToUpdate=clients.changeRoom(socket.id, msg);        	
+        	io.to(roomToUpdate).emit('userList', clients.getUsersFromRoom(roomToUpdate));
+        }
+        catch(err){
+
+        }
+        socket.broadcast.to(msg).emit('userList', clients.getUsersFromRoom(msg));
+       // io.to(roomToUpdate).emit('userList', clients.getUsersFromRoom(roomToUpdate));
+
 		playlist.findOne({ title:msg },function (err, doc){
 			if(err){
 				console.log('error');
@@ -386,9 +447,10 @@ io.on('connection', function(socket){
 							for (var i=0; i<doc2.length; i++){
 								playlistToSend.push(doc2[i])
 							}
+
 							var data={
 								list:playlistToSend,
-								order:doc.order
+								order:doc.order,
 							};
 							socket.join(msg);
 							console.log('emitting pl to single user');
@@ -401,21 +463,49 @@ io.on('connection', function(socket){
 						list:[],
 						order:[]
 					};
+					
 					socket.join(msg);
 					socket.emit('playlist', data);
 				}
 				
 			}
+
+			message.find({playlist:msg}).sort({dateAdded: 'ascending'}).exec(function(err, docs) { 
+				if(err){
+					console.log('error getting messages');
+					var data={
+						messages: null,
+						users: clients.getUsersFromRoom(msg)
+					}
+					
+					socket.emit('messages',data);
+				}
+				else{
+					var data={
+						messages: docs,
+						users: clients.getUsersFromRoom(msg)
+					}
+					
+					socket.emit('messages',data);
+				}
+			});
 		});
 		
 		
 	});
 	socket.on('join first', function(msg) {   //identical to join but for when client first opens page, to prevent default video from playing
 		var rooms = io.sockets.adapter.sids[socket.id];
-       for(var room in rooms) {
+        for(var room in rooms) {
            socket.leave(room);	
            console.log('left '+room);
-       }
+        }
+        try{
+        	var roomToUpdate=clients.changeRoom(socket.id, msg);
+        	io.to(roomToUpdate).emit('userList', clients.getUsersFromRoom(roomToUpdate));
+        }
+        catch(err){
+        }
+        socket.broadcast.to(msg).emit('userList', clients.getUsersFromRoom(msg));
 
 		console.log('joined '+msg);
 		socket.join(msg);
@@ -460,9 +550,29 @@ io.on('connection', function(socket){
 				
 			}
 		});
+		message.find({playlist:msg}).sort({dateAdded: 'ascending'}).exec(function(err, docs) { 
+			if(err){
+				console.log('error getting messages');
+				var data={
+					messages: null,
+					users: clients.getUsersFromRoom(msg)
+				}
+				
+				socket.emit('messages',data);
+			}
+			else{
+				var data={
+					messages: docs,
+					users: clients.getUsersFromRoom(msg)
+				}
+				
+				socket.emit('messages',data);
+			}
+		});
 		
 		
 	});
+
 
 
 

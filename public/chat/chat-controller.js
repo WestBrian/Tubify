@@ -48,10 +48,27 @@ app.controller('ChatController', function($scope) {
     };
 
     // Socket functions
-    scope.socket.on('message', function(data) {
+
+   scope.socket.on('userList', function(data) {   //for getting all messages
+        console.log('userList mesasge');
+        $scope.users=data;
+        $scope.$apply();
+
+    });
+    scope.socket.on('message', function(data) {  //for single message
         console.log('received chat message');
-        $scope.messages.push(data.name + ': ' + data.message);
+        $scope.messages.push(data);
         $scope.$apply();
         $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
+    });
+    scope.socket.on('messages', function(data) {   //for getting all messages
+        console.log('received chat message');
+        $scope.messages=[];
+        $scope.messages.push.apply($scope.messages, data.messages);
+        $scope.users=data.users;
+
+        $scope.$apply();
+        $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
+
     });
 });
