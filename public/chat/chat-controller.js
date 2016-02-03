@@ -15,6 +15,7 @@ app.controller('ChatController', function($scope) {
     	}
     if((!$scope.name && username=='guest')){
     	$('.name-container').show();
+    	$('.name-field').focus();
     }
     else{
     	var nameMessage = {
