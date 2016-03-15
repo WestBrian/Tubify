@@ -3,4 +3,7 @@
 		h5 Featured Playlists
 	hr
 	ul.list-group
-		li.list-group-item.text-center.featured-playlist(ng-repeat='playlist in featuredPlaylists', ng-click='loadPlaylist($index)') {{ playlist.title }} &nbsp&nbsp&nbsp {{playlist.playCount}}
+		li.list-group-item.text-center.featured-playlist(ng-repeat='playlist in featuredPlaylists', ng-click='loadPlaylist($index)')
+			.row
+				span.pull-left.margin-both {{playlist.title}}
+				span.pull-right.margin-both.cool-box-border Play count: {{playlist.playCount}}

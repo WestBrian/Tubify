@@ -84,7 +84,7 @@ clientList.prototype.getUsersFromRoom = function(room) {
 			userList.push(self[key]);
 		}
 	    // key: the name of the object key
-	    // index: the ordinal position of the key within the object 
+	    // index: the ordinal position of the key within the object
 	});
 	return userList;
 
@@ -184,13 +184,13 @@ io.on('connection', function(socket){
       	console.log('storing name');
       	io.to(data.room).emit('userList', clients.getUsersFromRoom(data.room));
     });
- 
+
  	socket.on('sync play video', function(data){
  		io.in(data.playlist+'#sync').emit('sync play video', data);
  	});
  	socket.on('sync', function(data) {
  		if(data.syncing){
- 			socket.join(data.playlist+'#sync');	
+ 			socket.join(data.playlist+'#sync');
  		}
  		else{
  			socket.leave(data.playlist+'#sync')
@@ -271,10 +271,10 @@ io.on('connection', function(socket){
 				else{
 					console.log('error');
 				}
-				
+
 			}
 
-			
+
 		});
 
  	});
@@ -300,7 +300,7 @@ io.on('connection', function(socket){
 					console.log('hey');
 					//for (var i=0; i<doc.videos.length; i++){
 					//	console.log('doc.videos['+i+'] : '+doc.videos[i]);
-					//}	
+					//}
 					doc.save(function (err2){
 						if (err2){
 							console.log('error');
@@ -340,7 +340,7 @@ io.on('connection', function(socket){
 				else{
 					console.log('error');
 				}
-				
+
 			}
         });
  	});
@@ -374,10 +374,10 @@ io.on('connection', function(socket){
 						}
 						else{
 							console.log('emitting addedVid');
-							io.to(msg.room).emit('addVid', msg);		
+							io.to(msg.room).emit('addVid', msg);
 						}
-					});	
-					
+					});
+
 				}
 				else{
 					var a=[];
@@ -387,7 +387,7 @@ io.on('connection', function(socket){
 						title: msg.room,
 						videos: [videoToSave._id],
 						order: a
-						
+
 
 					});
 					playlistToSave.save(function (err){
@@ -396,9 +396,9 @@ io.on('connection', function(socket){
 						}
 						else{
 							console.log('emitting addedVid');
-							io.to(msg.room).emit('addVid', msg);		
+							io.to(msg.room).emit('addVid', msg);
 						}
-					});		
+					});
 				}
 			});
 
@@ -406,18 +406,18 @@ io.on('connection', function(socket){
 			}
 		});
 
-		
- 		
-    }); 
+
+
+    });
 	socket.on('join', function(msg) {
 
 		var rooms = io.sockets.adapter.sids[socket.id];
        	for(var room in rooms) {
-          	socket.leave(room);	
+          	socket.leave(room);
             console.log('left '+room);
         }
         try {
-        	var roomToUpdate=clients.changeRoom(socket.id, msg);        	
+        	var roomToUpdate=clients.changeRoom(socket.id, msg);
         	io.to(roomToUpdate).emit('userList', clients.getUsersFromRoom(roomToUpdate));
         }
         catch(err){
@@ -463,21 +463,21 @@ io.on('connection', function(socket){
 						list:[],
 						order:[]
 					};
-					
+
 					socket.join(msg);
 					socket.emit('playlist', data);
 				}
-				
+
 			}
 
-			message.find({playlist:msg}).sort({dateAdded: 'ascending'}).exec(function(err, docs) { 
+			message.find({playlist:msg}).sort({dateAdded: 'ascending'}).exec(function(err, docs) {
 				if(err){
 					console.log('error getting messages');
 					var data={
 						messages: null,
 						users: clients.getUsersFromRoom(msg)
 					}
-					
+
 					socket.emit('messages',data);
 				}
 				else{
@@ -485,18 +485,18 @@ io.on('connection', function(socket){
 						messages: docs,
 						users: clients.getUsersFromRoom(msg)
 					}
-					
+
 					socket.emit('messages',data);
 				}
 			});
 		});
-		
-		
+
+
 	});
 	socket.on('join first', function(msg) {   //identical to join but for when client first opens page, to prevent default video from playing
 		var rooms = io.sockets.adapter.sids[socket.id];
         for(var room in rooms) {
-           socket.leave(room);	
+           socket.leave(room);
            console.log('left '+room);
         }
         try{
@@ -547,17 +547,17 @@ io.on('connection', function(socket){
 					};
 					socket.emit('playlist first', data);
 				}
-				
+
 			}
 		});
-		message.find({playlist:msg}).sort({dateAdded: 'ascending'}).exec(function(err, docs) { 
+		message.find({playlist:msg}).sort({dateAdded: 'ascending'}).exec(function(err, docs) {
 			if(err){
 				console.log('error getting messages');
 				var data={
 					messages: null,
 					users: clients.getUsersFromRoom(msg)
 				}
-				
+
 				socket.emit('messages',data);
 			}
 			else{
@@ -565,12 +565,12 @@ io.on('connection', function(socket){
 					messages: docs,
 					users: clients.getUsersFromRoom(msg)
 				}
-				
+
 				socket.emit('messages',data);
 			}
 		});
-		
-		
+
+
 	});
 
 

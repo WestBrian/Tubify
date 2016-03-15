@@ -23,6 +23,7 @@ app.controller('ChatController', function($scope) {
     	}
     if((!$scope.name && username=='guest')){
     	$('.name-container').show();
+    	$('.name-field').focus();
     }
     else{
     	var nameMessage = {
@@ -623,6 +624,12 @@ $(document).on("keyup", function(event) {
 
 // -- Helper functions -- //
 
+function prettyLog(somethingToLog) {
+	console.log('--------------------------');
+	console.log(somethingToLog);
+	console.log('--------------------------');
+}
+
 // Remove any elements with empty titles
 function removeBlankTitles(array) {
 	var indexOfBlank = -1;
@@ -653,20 +660,29 @@ function limitArrayTo(array, limit) {
 	return array;
 }
 
+function arrayToUpperCase(array) {
+	array.forEach(function(element) {
+		element.title = element.title.toLowerCase();
+	});
+
+	return array;
+}
+
 app.controller('FeaturedPlaylistController', function($scope, $http) {
-	
+
 	// Properties
 	$scope.featuredPlaylists = [];
-	const limit = 20;
+	const limit = 10;
 
 	// -- Playlist functions -- //
 
 	// Load all playlists
 	$http.get('/p', {}).then(function(response) {
-		//maybe should switch to socket 
+		//maybe should switch to socket
 		$scope.featuredPlaylists = response.data;
 		$scope.featuredPlaylists = removeBlankTitles($scope.featuredPlaylists);
 		$scope.featuredPlaylists = limitArrayTo($scope.featuredPlaylists, limit);
+		$scope.featuredPlaylists = arrayToUpperCase($scope.featuredPlaylists);
 	}, function(err) {
 		$scope.featuredPlaylists.push('Error fetching the featured playlist.');
 	});
@@ -675,20 +691,21 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 	$scope.loadPlaylist = function(index) {
 		//var playlistPath = 'http://localhost:3000/p/' + $scope.featuredPlaylists[index].title;
 		var scope = angular.element($("#main")).scope();
-		
+
         scope.playlistField = $scope.featuredPlaylists[index].title;
-        
+
         //$scope.socket.emit('join', $scope.featuredPlaylists[index].title);
         //$scope.$apply();
         //localStorage.setItem("playlist", $scope.featuredPlaylists[index].title);
         scope.playlistChange();
         // comment
         // another comment
-        
+
 		//window.location.href = playlistPath;
 	}
 
 });
+
 'use strict'
 
 app.controller('RegisterController', function($scope) {
