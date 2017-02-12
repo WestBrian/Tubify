@@ -50,7 +50,7 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 
 	// Properties
 	$scope.featuredPlaylists = [];
-	const limit = 10;
+	var limit = 10;
 
 	// -- Playlist functions -- //
 
@@ -60,6 +60,7 @@ app.controller('FeaturedPlaylistController', function($scope, $http) {
 		$scope.featuredPlaylists = response.data;
 		$scope.featuredPlaylists = removeBlankTitles($scope.featuredPlaylists);
 		$scope.featuredPlaylists = limitArrayTo($scope.featuredPlaylists, limit);
+		//$scope.featuredPlaylists = $scope.featuredPlaylists.splice(limit,$scope.featuredPlaylists.length);
 		$scope.featuredPlaylists = arrayToUpperCase($scope.featuredPlaylists);
 	}, function(err) {
 		$scope.featuredPlaylists.push('Error fetching the featured playlist.');
