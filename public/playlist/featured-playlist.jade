@@ -1,6 +1,15 @@
 .blue-wrapper(ng-controller='FeaturedPlaylistController')
 	.title-card
-		h5 Featured Playlists
+		h5 Trending Playlists
+	hr
+	ul.list-group
+		li.list-group-item.text-center.featured-playlist(ng-repeat='playlist in trendingPlaylists', ng-click='loadTrendingPlaylist($index)')
+			.row
+				span.pull-left.margin-both {{playlist.title}}
+				span.pull-right.margin-both.cool-box-border Play count: {{playlist.playCountWeekly}}
+.blue-wrapper(ng-controller='FeaturedPlaylistController')
+	.title-card
+		h5 All Time
 	hr
 	ul.list-group
 		li.list-group-item.text-center.featured-playlist(ng-repeat='playlist in featuredPlaylists', ng-click='loadPlaylist($index)')

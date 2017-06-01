@@ -7,6 +7,7 @@ var playlistsSchema = mongoose.Schema({
 	videos: Array,
 	order: Array,
 	playCount: { type: Number, default: 0 },
+	playCountWeekly: { type: Number, default: 0 },
 	dateAdded: { type: Date, default: Date.now }
 
 });

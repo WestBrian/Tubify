@@ -53,13 +53,14 @@ var Playlist = require('../models/playlist.js');
 router.get('/p', function(req, res) {
 	var featuredPlaylists = [];
 
-	Playlist.find({}, {title: true, playCount: true}, function(err, doc) {
+	Playlist.find({}, function(err, doc) {
 		if(err){
 			console.log('Error:');
 			console.log(err);
 			res.send(featuredPlaylists);
 		}
 		featuredPlaylists = doc;
+		
 		res.send(featuredPlaylists);
 	}).sort({ playCount: -1 });
 });

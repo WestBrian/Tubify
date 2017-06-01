@@ -433,6 +433,12 @@ io.on('connection', function(socket){
 			else{
 				if(doc!=null){
 					doc.playCount+=1;
+					if(doc.playCountWeekly){
+						doc.playCountWeekly=doc.playCountWeekly+1;
+					}
+					else{
+						doc.playCountWeekly=1;
+					}
 					doc.save(function (err){
 						if (err){
 							console.log('error updating playcount');
@@ -517,6 +523,12 @@ io.on('connection', function(socket){
 			else{
 				if(doc!=null){
 					doc.playCount+=1;
+					if(doc.playCountWeekly){
+						doc.playCountWeekly=doc.playCountWeekly+1;
+					}
+					else{
+						doc.playCountWeekly=1;
+					}
 					doc.save(function (err){
 						if (err){
 							console.log('error updating playcount');
